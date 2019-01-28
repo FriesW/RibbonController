@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="110mm"
+   height="35mm"
+   viewBox="0 0 110 35"
+   version="1.1"
+   id="svg5114"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="SliderPlate.svg">
+  <defs
+     id="defs5108" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.56"
+     inkscape:cx="73.841775"
+     inkscape:cy="24.664957"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5111">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-262)">
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26244208;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 8.5272609,296.86374 c -4.233e-4,-4e-5 -7.1170224,-0.004 -7.1170224,-0.004 -0.70359429,0 -1.27023246,-0.55748 -1.27023246,-1.24971 v -28.73865 c 0,-0.6628 0.52111666,-1.19592 1.18289746,-1.24055 H 94.303092 c 0,0 8.985168,6.0883 10.962858,10.7857 1.25328,2.97679 1.25328,6.68936 0,9.66615 -1.97769,4.6974 -10.962858,10.7857 -10.962858,10.7857 -28.591942,-0.006 -57.183888,-0.004 -85.7758311,-0.004 z"
+       id="rect5659"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csssccaacc" />
+    <circle
+       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5661"
+       cx="23.314585"
+       cy="281.24966"
+       r="2.05" />
+    <circle
+       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5663"
+       cx="78.314583"
+       cy="281.24966"
+       r="2.05" />
+    <circle
+       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5665"
+       cx="95.864586"
+       cy="281.24966"
+       r="2.5999999" />
+    <circle
+       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5663-0"
+       cx="56.106255"
+       cy="281.24966"
+       r="2.3" />
+    <circle
+       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path5667-7"
+       cx="43.9147"
+       cy="291.46771"
+       r="2.55" />
+    <circle
+       r="2.55"
+       cy="-271.03149"
+       cx="43.9147"
+       id="circle847"
+       style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.26458332;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       transform="scale(1,-1)" />
+  </g>
+</svg>

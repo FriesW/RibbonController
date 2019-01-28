@@ -1,0 +1,7 @@
+21mm total stackup
+
+Stackup:
+L0 - 6mm
+L1 - 6mm
+L2(L0 derive) - 6mm
+L3 - 3mm
