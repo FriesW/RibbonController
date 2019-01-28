@@ -1,6 +1,8 @@
 //Teensy LC
 
 #include <ADC.h>
+#include "ControlChannel.h"
+
 #define uint unsigned int
 #define ulong unsigned long
 
@@ -13,14 +15,6 @@
 
 //Device channel [1, 16]
 #define midi_ch 1
-
-//High res continuous controller addresses
-//for reporting h and l positions
-//Format: `msb, lsb`
-//See: http://www.somascape.org/midi/tech/spec.html#ctrlnums
-#define reg_l 16, 48
-#define reg_h 17, 49
-
 
 /*** MIDI notedata settings ***/
 //NOTE: ADC settings are on `adc_actual_res` bits, not sampling bits
@@ -71,6 +65,10 @@
 
 ADC *adc = new ADC();
 
+ControlChannel *pt_l = new ControlChannel(midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RES);
+ControlChannel *pt_h = new ControlChannel(midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
+ControlChannel *expr = new ControlChannel(midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
+
 void setup(){
     pinMode(led, OUTPUT);
     
@@ -90,14 +88,11 @@ void loop(){
     
     read_ribbon(&low, &high);
     
-    note_out(low, high);
-    
+    pt_l->send(low);
+    pt_h->send(high);
 }
 
 void read_ribbon(uint* out_l, uint* out_h){
-    static uint last_l = -1;
-    static uint last_h = -1;
-    
     ulong read_l = 0;
     ulong read_h = 0;
     for(uint i = 0; i < logic_avg; i++){
@@ -109,44 +104,9 @@ void read_ribbon(uint* out_l, uint* out_h){
     
     new_l = new_l >> (adc_sample_res - adc_actual_res);
     new_h = new_h >> (adc_sample_res - adc_actual_res);
-    dbp(new_l, new_h);
     
-    midi_control_out(reg_l, new_l, last_l);
-    midi_control_out(reg_h, new_h, last_h);
-    
-    *out_l = last_l = new_l;
-    *out_h = last_h = new_h;
-}
-
-void midi_control_out(uint msb_r, uint lsb_r, uint new_v, uint old_v){
-    byte msb_nd = new_v >> 7;
-    byte lsb_nd = new_v & 0b1111111;
-    byte msb_od = old_v >> 7;
-    byte lsb_od = old_v & 0b1111111;
-    boolean send_msb = msb_nd != msb_od;
-    boolean send_lsb = send_msb || lsb_nd != lsb_od;
-    if(send_msb)
-        usbMIDI.sendControlChange(msb_r, msb_nd, midi_ch);
-    if(send_lsb)
-        usbMIDI.sendControlChange(lsb_r, lsb_nd, midi_ch);
-}
-
-void note_out(uint low, uint high){
-    static uint[] buffer;
-    static elapsedMillis hold_off;
-    static boolean state = false;
-    
-    if(state){
-    }
-    else{
-        if(high > 2900){ //TODO -> constant
-            hold_off = 0;
-            return;
-        }
-        if(hold_off > 20){ //TODO -> constant
-            state = false;
-        }
-    }
+    *out_l = new_l;
+    *out_h = new_h;
 }
 
 void ratelimit(){
@@ -167,25 +127,4 @@ void alive(){
 
 void databurn(){
     while(usbMIDI.read()); //Drop any incoming data
-}
-
-void dbp(uint a, uint b){
-    dbp_ws(a);
-    Serial.print(a);
-    Serial.print("   ");
-    dbp_ws(b);
-    Serial.println(b);
-}
-
-void dbp_ws(uint a){
-    #define pws )Serial.print(' ');if(a<
-    if(a <
-    10L pws
-    100L pws
-    1000L pws
-    10000L pws
-    100000L pws
-    1000000L pws
-    10000000L pws
-    -1);
 }
