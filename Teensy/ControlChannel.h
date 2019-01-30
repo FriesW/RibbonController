@@ -2,7 +2,6 @@
 #define MIDI_CONTROL_CHANNEL_H
 
 #include <Arduino.h>
-//#include <stdint.h>
 
 #define CC_MODE_HIGH_RES 1
 #define CC_MODE_LOW_RES 0
