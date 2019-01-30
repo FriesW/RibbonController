@@ -1,5 +1,5 @@
-#ifndef SCHEDULER_H
-#define SCHEDULER_H
+#ifndef METRO_H
+#define METRO_H
 
 #include<Arduino.h>
 
@@ -23,20 +23,4 @@ class Metro {
         bool running;
 };
 
-class ManagerClass {
-
-    public:
-        
-        bool update();
-    
-    //Should not be externally accessed
-        Metro* first;
-    
-    private:
-        Metro* current;
-
-};
-
-//ManagerClass MetroManager;
-
-#endif //SCHEDULER_H
+#endif //METRO_H

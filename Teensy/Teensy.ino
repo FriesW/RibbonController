@@ -2,9 +2,8 @@
 
 #include <ADC.h>
 #include "Settings.h"
-#include "Persist/Persist.h"
-#include "Persist/EEPROMReserve.h"
-#include "Scheduler.h"
+#include "Scheduler/Manager.h"
+#include "Scheduler/Metro.h"
 #include "ControlChannel.h"
 
 #define uint unsigned int
