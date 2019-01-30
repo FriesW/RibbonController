@@ -7,7 +7,7 @@
 class EEPROMReserveClass{
 
     private:
-        static int addr_pointer;
+        int addr_pointer = 0;
     
     public:
         int reserve(unsigned int size){

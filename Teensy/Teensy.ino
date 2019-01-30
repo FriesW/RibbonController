@@ -2,7 +2,7 @@
 
 #include <ADC.h>
 #include "ControlChannel.h"
-#include "Persist/Persist.h"
+#include "Settings.h"
 
 #define uint unsigned int
 #define ulong unsigned long
@@ -71,6 +71,11 @@ ControlChannel *pt_h = new ControlChannel(midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RE
 ControlChannel *expr = new ControlChannel(midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
 
 void setup(){
+    Serial.begin(0);
+    Serial.println(settings.x.get());
+    Serial.println(settings.y.get());
+    Serial.println(settings.z.get());
+    
     pinMode(led, OUTPUT);
     
     adc->setResolution(adc_sample_res);
