@@ -4,13 +4,13 @@
 #include<Arduino.h>
 #include<EEPROM.h>
 
-class EEPROMReserve{
+class EEPROMReserveClass{
 
     private:
-        static int addr_pointer = 0;
+        static int addr_pointer;
     
     public:
-        static int reserve(unsigned int size){
+        int reserve(unsigned int size){
             if(addr_pointer + size > EEPROM.length())
                 return -1;
             int out = addr_pointer;
@@ -19,5 +19,7 @@ class EEPROMReserve{
         }
 
 };
+
+EEPROMReserveClass EEPROMReserve;
 
 #endif //EEPROM_RESERVE_H

@@ -2,6 +2,7 @@
 
 #include <ADC.h>
 #include "ControlChannel.h"
+#include "Persist/Persist.h"
 
 #define uint unsigned int
 #define ulong unsigned long

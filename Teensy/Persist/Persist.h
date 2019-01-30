@@ -3,7 +3,7 @@
 
 #include<Arduino.h>
 #include<EEPROM.h>
-#include<"EEPROMReserve.h">
+#include "EEPROMReserve.h"
 
 template <class T>
 class Persist {
@@ -11,40 +11,29 @@ class Persist {
     private:
         T value;
         int addr = -1;
-        
-        void update(T n){
-            value = n;
-            if(addr != -1)
-                EEPROM.put(addr, value);
-        }
     
     public:
-        operator T get () const{return value;}
+    
         Persist(){
             addr = EEPROMReserve.reserve(sizeof(T));
-            if(addr != -1)
+            if(working())
                 EEPROM.get(addr, value);
         }
-        Persist<T> & operator = (const Persist<T> &rhs) {update(rhs.value); return *this;}
-        Persist<T> & operator = (T rhs) {update(rhs); return *this;}
-        Persist<T> & operator -= (T rhs) {update(rhs); return *this;}
-        Persist<T> & operator += (T rhs) {update(rhs); return *this;}
-        Persist<T> operator -
-        Persist<T> operator +
-        Persist<T> operator *
-        Persist<T> operator / 
-        Persist<T> operator %
-        //Prefix
-        Persist<T> operator++ () {update(value+1); return *this;}
-        Persist<T> operator-- () {update(value-1); return *this;}
-        //Postfix
-        Persist<T> operator++ (T) {T o = value; update(value+1); return o;}
-        Persist<T> operator-- (T) {T o = value; update(value-1); return o;}
         
+        T get(){
+            return value;
+        }
         
-    
-    
-    
+        void set(T n){
+            value = n;
+            if(working())
+                EEPROM.put(addr, value);
+        }
+        
+        bool working(){
+            return addr != -1;
+        }
+
 };
 
 #endif //PERSIST_H
