@@ -1,8 +1,11 @@
 //Teensy LC
 
 #include <ADC.h>
-#include "ControlChannel.h"
 #include "Settings.h"
+#include "Persist/Persist.h"
+#include "Persist/EEPROMReserve.h"
+#include "Scheduler.h"
+#include "ControlChannel.h"
 
 #define uint unsigned int
 #define ulong unsigned long
@@ -70,6 +73,9 @@ ControlChannel *pt_l = new ControlChannel(midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RE
 ControlChannel *pt_h = new ControlChannel(midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
 ControlChannel *expr = new ControlChannel(midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
 
+//Metro *reader = new Metro(make_reading, 20);
+//Metro *heart_beat = new Metro(alive, 500);
+
 void setup(){
     Serial.begin(0);
     Serial.println(settings.x.get());
@@ -82,13 +88,16 @@ void setup(){
     adc->setAveraging(adc_avg);
     adc->setSamplingSpeed(adc_speed_sample);
     adc->setConversionSpeed(adc_speed_convert);
+    //reader->start();
+    //heart_beat->start();
 }
 
 void loop(){
-    ratelimit();
     databurn();
-    alive();
-    
+    MetroManager.update();
+}
+
+void make_reading(){
     uint low;
     uint high;
     
@@ -115,20 +124,10 @@ void read_ribbon(uint* out_l, uint* out_h){
     *out_h = new_h;
 }
 
-void ratelimit(){
-    static elapsedMillis t;
-    while(t < cycle_time) usbMIDI.read();
-    t -= cycle_time;
-}
-
 void alive(){
-    static elapsedMillis t;
     static boolean last = false;
-    if(t > 500){
-        digitalWrite(led, last);
-        last = !last;
-        t -= 500;
-    }
+    digitalWrite(led, last);
+    last = !last;
 }
 
 void databurn(){
