@@ -65,14 +65,14 @@
 
 
 
-ADC *adc = new ADC();
+ADC adc;
 
-ControlChannel *pt_l = new ControlChannel(midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RES);
-ControlChannel *pt_h = new ControlChannel(midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
-ControlChannel *expr = new ControlChannel(midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
+ControlChannel pt_l (midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RES);
+ControlChannel pt_h (midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
+ControlChannel expr (midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
 
-Metro *reader = new Metro(make_reading, 20);
-Metro *heart_beat = new Metro(alive, 500);
+Metro reader (make_reading, 20);
+Metro heart_beat (alive, 500);
 
 void setup(){
     Serial.begin(0);
@@ -82,12 +82,12 @@ void setup(){
     
     pinMode(led, OUTPUT);
     
-    adc->setResolution(adc_sample_res);
-    adc->setAveraging(adc_avg);
-    adc->setSamplingSpeed(adc_speed_sample);
-    adc->setConversionSpeed(adc_speed_convert);
-    reader->start();
-    heart_beat->start();
+    adc.setResolution(adc_sample_res);
+    adc.setAveraging(adc_avg);
+    adc.setSamplingSpeed(adc_speed_sample);
+    adc.setConversionSpeed(adc_speed_convert);
+    reader.start();
+    heart_beat.start();
 }
 
 void loop(){
@@ -101,16 +101,16 @@ void make_reading(){
     
     read_ribbon(&low, &high);
     
-    pt_l->send(low);
-    pt_h->send(high);
+    pt_l.send(low);
+    pt_h.send(high);
 }
 
 void read_ribbon(uint* out_l, uint* out_h){
     ulong read_l = 0;
     ulong read_h = 0;
     for(uint i = 0; i < logic_avg; i++){
-        read_l += adc->analogRead(pin_l);
-        read_h += adc->analogRead(pin_h);
+        read_l += adc.analogRead(pin_l);
+        read_h += adc.analogRead(pin_h);
     }
     uint new_l = read_l / logic_avg;
     uint new_h = read_h / logic_avg;
