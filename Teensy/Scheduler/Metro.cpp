@@ -32,10 +32,11 @@ void Metro::period(unsigned long new_p){
 bool Metro::_if_check_then_run(){
     if(!running)
         return false;
-    if(delta < cycle)
+    unsigned long delta_static = (unsigned long) delta;
+    unsigned int events_passed = delta_static / cycle;
+    if(!events_passed)
         return false;
     function();
-    while(delta > cycle)
-        delta -= cycle;
+    delta -= cycle * events_passed;
     return true;
 }
