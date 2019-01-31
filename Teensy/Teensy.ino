@@ -51,10 +51,9 @@
 #define pin_h A3
 
 //Bits & averaging
-#define adc_sample_res 16 //max 16
+#define adc_sample_res 12 //max 16
 #define adc_actual_res 12 //max 12
-#define adc_avg 32
-#define logic_avg 10
+#define adc_avg 16
 
 //Speeds
 //ADC_SAMPLING_SPEED enum:
@@ -67,20 +66,20 @@
 
 
 ADC adc;
-FIFO<uint, 50> readings;
+FIFO<uint, 5> read_tail;
+FIFO<uint, 5> read_sample;
+FIFO<uint, 5> read_head;
 
 ControlChannel pt_l (midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RES);
 ControlChannel pt_h (midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
 ControlChannel expr (midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
 
-Metro reader (make_reading, 10);
+Metro reader (make_reading, 4);
+Metro output (midi_out, 15);
 Metro heart_beat (alive, 500);
 
 void setup(){
     Serial.begin(0);
-    Serial.println(settings.x.get());
-    Serial.println(settings.y.get());
-    Serial.println(settings.z.get());
     
     pinMode(led, OUTPUT);
     
@@ -88,54 +87,47 @@ void setup(){
     adc.setAveraging(adc_avg);
     adc.setSamplingSpeed(adc_speed_sample);
     adc.setConversionSpeed(adc_speed_convert);
+    
     reader.start();
     heart_beat.start();
 }
 
 void loop(){
     databurn();
-    serial_ui();
+    //serial_ui();
     MetroManager.update();
+}
+
+void midi_out(){
+    uint v = read_sample.average();
+    Serial.println(v);
+    pt_l.send(v);
 }
 
 void make_reading(){
     uint low;
     uint high;
     
-    read_ribbon(&low, &high);
+    low = adc.analogRead(pin_l) >> (adc_sample_res - adc_actual_res);
+    high = adc.analogRead(pin_h) >> (adc_sample_res - adc_actual_res);
     
-    pt_l.send(low);
-    pt_h.send(high);
-}
-
-void read_ribbon(uint* out_l, uint* out_h){
+    read_tail.push( read_sample.push( read_head.push( low ) ) );
     
-    //ulong read_l = 0;
-    //ulong read_h = 0;
-    //unsigned long s = millis();
-    //for(uint i = 0; i < logic_avg; i++){
-    //    read_l += adc.analogRead(pin_l);
-    //    read_h += adc.analogRead(pin_h);
-    //}
-    //Serial.println(millis() - s);
-    //uint new_l = read_l / logic_avg;
-    //uint new_h = read_h / logic_avg;
-    //
-    //new_l = new_l >> (adc_sample_res - adc_actual_res);
-    //new_h = new_h >> (adc_sample_res - adc_actual_res);
-    //
-    //*out_l = new_l;
-    //*out_h = new_h;
+    bool thres = read_head.max() > 3000 || read_tail.max() > 3000;
     
-    *out_l = adc.analogRead(pin_l) >> (adc_sample_res - adc_actual_res);
-    *out_h = adc.analogRead(pin_h) >> (adc_sample_res - adc_actual_res);
-    //Serial.print(*out_l);
-    ////Serial.print(" ");
-    ////Serial.print(*out_h);
-    //uint old = readings.push(*out_l);
-    //Serial.print(" ");
-    //Serial.print(old);
-    //Serial.println(" 0 4500");
+    if(!output.is_running() && !thres){
+        Serial.println("ON");
+        output.start();
+        midi_out();
+    }
+    if(output.is_running() && thres){
+        output.stop();
+        midi_out();
+        Serial.println("OFF");
+    }
+    
+    //pt_l.send(low);
+    //pt_h.send(high);
 }
 
 void serial_ui(){

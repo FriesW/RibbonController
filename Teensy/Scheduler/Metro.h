@@ -11,6 +11,7 @@ class Metro {
         void period(unsigned long);
         void start();
         void stop();
+        bool is_running() const;
         
     //Should not be externally accessed
     

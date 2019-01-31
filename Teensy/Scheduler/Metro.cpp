@@ -25,6 +25,10 @@ void Metro::stop(){
     running = false;
 }
 
+bool Metro::is_running() const{
+    return running;
+}
+
 void Metro::period(unsigned long new_p){
     cycle = new_p;
 }
