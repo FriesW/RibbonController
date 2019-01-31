@@ -4,6 +4,7 @@
 #include "Settings.h"
 #include "Scheduler/Scheduler.h"
 #include "ControlChannel.h"
+#include "FIFO.h"
 
 #define uint unsigned int
 #define ulong unsigned long
@@ -66,12 +67,13 @@
 
 
 ADC adc;
+FIFO<uint, 50> readings;
 
 ControlChannel pt_l (midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RES);
 ControlChannel pt_h (midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
 ControlChannel expr (midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
 
-Metro reader (make_reading, 20);
+Metro reader (make_reading, 10);
 Metro heart_beat (alive, 500);
 
 void setup(){
@@ -106,20 +108,33 @@ void make_reading(){
 }
 
 void read_ribbon(uint* out_l, uint* out_h){
-    ulong read_l = 0;
-    ulong read_h = 0;
-    for(uint i = 0; i < logic_avg; i++){
-        read_l += adc.analogRead(pin_l);
-        read_h += adc.analogRead(pin_h);
-    }
-    uint new_l = read_l / logic_avg;
-    uint new_h = read_h / logic_avg;
     
-    new_l = new_l >> (adc_sample_res - adc_actual_res);
-    new_h = new_h >> (adc_sample_res - adc_actual_res);
+    //ulong read_l = 0;
+    //ulong read_h = 0;
+    //unsigned long s = millis();
+    //for(uint i = 0; i < logic_avg; i++){
+    //    read_l += adc.analogRead(pin_l);
+    //    read_h += adc.analogRead(pin_h);
+    //}
+    //Serial.println(millis() - s);
+    //uint new_l = read_l / logic_avg;
+    //uint new_h = read_h / logic_avg;
+    //
+    //new_l = new_l >> (adc_sample_res - adc_actual_res);
+    //new_h = new_h >> (adc_sample_res - adc_actual_res);
+    //
+    //*out_l = new_l;
+    //*out_h = new_h;
     
-    *out_l = new_l;
-    *out_h = new_h;
+    *out_l = adc.analogRead(pin_l) >> (adc_sample_res - adc_actual_res);
+    *out_h = adc.analogRead(pin_h) >> (adc_sample_res - adc_actual_res);
+    Serial.print(*out_l);
+    //Serial.print(" ");
+    //Serial.print(*out_h);
+    uint old = readings.push(*out_l);
+    Serial.print(" ");
+    Serial.print(old);
+    Serial.println(" 0 4500");
 }
 
 void alive(){
