@@ -1,5 +1,3 @@
-#include "Manager.h"
-
 bool ManagerClass::update(){
     if(first == NULL)
         return false;

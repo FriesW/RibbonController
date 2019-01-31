@@ -2,8 +2,7 @@
 
 #include <ADC.h>
 #include "Settings.h"
-#include "Scheduler/Manager.h"
-#include "Scheduler/Metro.h"
+#include "Scheduler/Scheduler.h"
 #include "ControlChannel.h"
 
 #define uint unsigned int
@@ -72,8 +71,8 @@ ControlChannel *pt_l = new ControlChannel(midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RE
 ControlChannel *pt_h = new ControlChannel(midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
 ControlChannel *expr = new ControlChannel(midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
 
-//Metro *reader = new Metro(make_reading, 20);
-//Metro *heart_beat = new Metro(alive, 500);
+Metro *reader = new Metro(make_reading, 20);
+Metro *heart_beat = new Metro(alive, 500);
 
 void setup(){
     Serial.begin(0);
@@ -87,8 +86,8 @@ void setup(){
     adc->setAveraging(adc_avg);
     adc->setSamplingSpeed(adc_speed_sample);
     adc->setConversionSpeed(adc_speed_convert);
-    //reader->start();
-    //heart_beat->start();
+    reader->start();
+    heart_beat->start();
 }
 
 void loop(){

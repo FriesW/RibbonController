@@ -2,7 +2,6 @@
 #define MANAGER_H
 
 #include<Arduino.h>
-#include "Metro.h"
 
 class ManagerClass {
 
@@ -17,7 +16,5 @@ class ManagerClass {
         Metro* current;
 
 };
-
-ManagerClass MetroManager;
 
 #endif //MANAGER_H

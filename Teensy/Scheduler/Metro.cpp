@@ -1,6 +1,3 @@
-#include "Scheduler.h"
-#include "Manager.h"
-
 Metro::Metro(func_t func, unsigned long period){
     function = func;
     cycle = period;
