@@ -14,8 +14,8 @@ class FIFO {
         
     public:
         T newest() const {
-            if(index != 0)
-                return array[index-1];
+            if(front != 0)
+                return array[front-1];
             else
                 return array[size-1];
         }
@@ -24,12 +24,19 @@ class FIFO {
             return array[front];
         }
 
-        T index(unsigned int index) const {
-            index += front;
-            index = index % size;
-            return array[index];
+        T index(unsigned int i) const {
+            i += front;
+            i = i % size;
+            return array[i];
         }
         
+        T max() const {
+            T out = array[0];
+            for(unsigned int i=1; i < size; i++)
+                if(array[i] > out)
+                    out = array[i];
+            return out;
+        }
         
         T push(T new_element) {
             T out = array[front];
