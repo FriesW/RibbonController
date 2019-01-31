@@ -7,6 +7,7 @@ typedef void (*func_t)();//(int,int);
 class Metro {
     
     public:
+        Metro();
         Metro(func_t, unsigned long);
         void period(unsigned long);
         void start();

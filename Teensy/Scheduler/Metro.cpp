@@ -1,3 +1,8 @@
+Metro::Metro(){
+    cycle = -1;
+    running = false;
+}
+
 Metro::Metro(func_t func, unsigned long period){
     function = func;
     cycle = period;
@@ -17,6 +22,8 @@ Metro::Metro(func_t func, unsigned long period){
 }
 
 void Metro::start(){
+    if(cycle+1 == 0)
+        return;
     running = true;
     delta = 0;
 }
@@ -30,6 +37,8 @@ bool Metro::is_running() const{
 }
 
 void Metro::period(unsigned long new_p){
+    if(cycle+1 == 0)
+        return;
     cycle = new_p;
 }
 

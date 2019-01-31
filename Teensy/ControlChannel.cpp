@@ -1,5 +1,9 @@
 #include "ControlChannel.h"
 
+ControlChannel::ControlChannel(){
+    mode = -1;
+}
+
 ControlChannel::ControlChannel(byte channel, byte msb){
     ch = channel;
     mode = CC_MODE_LOW_RES;
@@ -14,6 +18,8 @@ ControlChannel::ControlChannel(byte channel, byte msb, byte resolution){
 }
 
 int ControlChannel::send(unsigned int value){
+    if(mode == -1)
+        return -1;
     
     if(mode == CC_MODE_LOW_RES){
         byte out = value & 0b1111111;
@@ -25,7 +31,7 @@ int ControlChannel::send(unsigned int value){
         return 0;
     }
     
-    else if(mode == CC_MODE_HIGH_RES){
+    if(mode == CC_MODE_HIGH_RES){
         byte out_msb = (value >> 7) & 0b1111111;
         byte out_lsb = value & 0b1111111;
         byte send_msb = out_msb != last_msb;
@@ -37,7 +43,6 @@ int ControlChannel::send(unsigned int value){
         if(send_lsb)
             usbMIDI.sendControlChange(reg_lsb, out_lsb, ch);
         return send_lsb;
-        
     }
     
     return -1;
