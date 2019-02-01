@@ -4,7 +4,7 @@
 #include "Settings.h"
 #include "Scheduler/Scheduler.h"
 #include "ControlChannel.h"
-#include "FIFO.h"
+//#include "FIFO.h"
 
 #define uint unsigned int
 #define ulong unsigned long
@@ -17,7 +17,7 @@
 /*** MIDI control settings ***/
 
 //Device channel [1, 16]
-#define midi_ch 1
+const byte midi_ch = 1;
 
 /*** MIDI notedata settings ***/
 //NOTE: ADC settings are on `adc_actual_res` bits, not sampling bits
@@ -47,7 +47,7 @@
 /*** ADC settings ***/
 
 //The device pins on which the ribbon ends are connected
-#define pin_l A2
+const byte pin_l = A2;
 #define pin_h A3
 
 //Bits & averaging
@@ -66,17 +66,13 @@
 
 
 ADC adc;
-FIFO<uint, 5> read_tail;
-FIFO<uint, 5> read_sample;
-FIFO<uint, 5> read_head;
 
-ControlChannel pt_l (midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RES);
-ControlChannel pt_h (midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
-ControlChannel expr (midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
+#include "Ribbon.h"
 
-Metro reader (make_reading, 4);
-Metro output (midi_out, 15);
+//ControlChannel expr (midi_ch, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
+
 Metro heart_beat (alive, 500);
+
 
 void setup(){
     Serial.begin(0);
@@ -88,8 +84,9 @@ void setup(){
     adc.setSamplingSpeed(adc_speed_sample);
     adc.setConversionSpeed(adc_speed_convert);
     
-    reader.start();
     heart_beat.start();
+    Ribbon.setup(midi_ch, pin_l, pin_h);
+    Ribbon.enable();
 }
 
 void loop(){
@@ -98,37 +95,6 @@ void loop(){
     MetroManager.update();
 }
 
-void midi_out(){
-    uint v = read_sample.average();
-    Serial.println(v);
-    pt_l.send(v);
-}
-
-void make_reading(){
-    uint low;
-    uint high;
-    
-    low = adc.analogRead(pin_l) >> (adc_sample_res - adc_actual_res);
-    high = adc.analogRead(pin_h) >> (adc_sample_res - adc_actual_res);
-    
-    read_tail.push( read_sample.push( read_head.push( low ) ) );
-    
-    bool thres = read_head.max() > 3000 || read_tail.max() > 3000;
-    
-    if(!output.is_running() && !thres){
-        Serial.println("ON");
-        output.start();
-        midi_out();
-    }
-    if(output.is_running() && thres){
-        output.stop();
-        midi_out();
-        Serial.println("OFF");
-    }
-    
-    //pt_l.send(low);
-    //pt_h.send(high);
-}
 
 void serial_ui(){
     static boolean last_dtr;
