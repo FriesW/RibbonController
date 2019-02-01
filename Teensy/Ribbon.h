@@ -83,7 +83,9 @@ void _take_reading(){
         _a.ff_head.max() > 3200 ||
         _a.ff_tail.max() > 3200 ||
         _b.ff_head.max() > 3200 ||
-        _b.ff_tail.max() > 3200;
+        _b.ff_tail.max() > 3200 ||
+        _a.ff_sample.max() > 3200 ||
+        _b.ff_sample.max() > 3200;
     bool running = _m_flow.is_running();
     
     if(!running && !thres){
