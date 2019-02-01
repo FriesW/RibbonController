@@ -2,6 +2,7 @@
 #define RIBBON_H
 
 #include<Arduino.h>
+#include "Settings.h"
 #include "ADC.h"
 #include "ControlChannel.h"
 #include "FIFO.h"
@@ -9,7 +10,6 @@
 
 
 struct RibbonChannel {
-    byte pin;
     ControlChannel cc_raw;
     ControlChannel cc_flow;
     FIFO<uint, 5> ff_tail;
@@ -18,14 +18,13 @@ struct RibbonChannel {
 };
 
 typedef void (*func_t)();
-typedef void (*func_init)(byte, byte, byte);
 struct StaticRibbon {
-    func_init setup;
+    func_t setup;
     func_t enable;
     func_t disable;
 };
 
-void _ribbon_init(byte, byte, byte);
+void _ribbon_init();
 struct StaticRibbon Ribbon = {.setup = _ribbon_init};
 
 
@@ -45,13 +44,11 @@ Metro _m_raw (_out_raw, 15);
 
 
 
-void _ribbon_init(byte midi_ch, byte pin_a, byte pin_b){
-    _a.cc_flow = ControlChannel(midi_ch, CC_GEN_REG_1, CC_MODE_HIGH_RES);
-    _b.cc_flow = ControlChannel(midi_ch, CC_GEN_REG_2, CC_MODE_HIGH_RES);
-    _a.cc_raw  = ControlChannel(midi_ch, CC_GEN_REG_3, CC_MODE_HIGH_RES);
-    _b.cc_raw  = ControlChannel(midi_ch, CC_GEN_REG_4, CC_MODE_HIGH_RES);
-    _a.pin = pin_a;
-    _b.pin = pin_b;
+void _ribbon_init(){
+    _a.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_1, CC_MODE_HIGH_RES);
+    _b.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_2, CC_MODE_HIGH_RES);
+    _a.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_3, CC_MODE_HIGH_RES);
+    _b.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_4, CC_MODE_HIGH_RES);
     Ribbon.enable = _enable;
     Ribbon.disable = _disable;
 }
@@ -68,8 +65,8 @@ void _disable(){
 }
 
 void _take_reading(){
-    unsigned int va = adc.analogRead(_a.pin);
-    unsigned int vb = adc.analogRead(_b.pin);
+    unsigned int va = adc.read_A();
+    unsigned int vb = adc.read_B();
     _a.ff_tail.push(
       _a.ff_sample.push(
         _a.ff_head.push( va )
