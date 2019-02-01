@@ -2,6 +2,7 @@
 #define RIBBON_H
 
 #include<Arduino.h>
+#include "ADC.h"
 #include "ControlChannel.h"
 #include "FIFO.h"
 #include "Scheduler/Scheduler.h"
