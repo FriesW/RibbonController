@@ -7,6 +7,7 @@
 #include "ControlChannel.h"
 #include "FIFO.h"
 #include "Scheduler/Scheduler.h"
+#include "Linearize.h"
 
 
 struct RibbonChannel {
@@ -78,8 +79,8 @@ void _take_reading(){
     
     bool thres =
         _a.ff_head.max() > 3200 ||
-        _a.ff_tail.max() > 3200 ||
         _b.ff_head.max() > 3200 ||
+        _a.ff_tail.max() > 3200 ||
         _b.ff_tail.max() > 3200 ||
         _a.ff_sample.max() > 3200 ||
         _b.ff_sample.max() > 3200;
@@ -96,8 +97,8 @@ void _take_reading(){
 }
 
 void _out_flow(){
-    _a.cc_flow.send( _a.ff_sample.average() );
-    _b.cc_flow.send( _b.ff_sample.average() );
+    _a.cc_flow.send(Linearize.map( _a.ff_sample.average() ));
+    _b.cc_flow.send(Linearize.map( _b.ff_sample.average() ));
 }
 
 void _out_raw(){

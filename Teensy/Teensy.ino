@@ -4,6 +4,7 @@
 #include "Settings.h"
 #include "Scheduler/Scheduler.h"
 #include "Ribbon.h"
+#include "Linearize.h"
 
 #define uint unsigned int
 #define ulong unsigned long
@@ -26,6 +27,11 @@ void setup(){
     heart_beat.start();
     Ribbon.setup();
     Ribbon.enable();
+    
+    while(!Serial.dtr());
+    Serial.println("Calibrating...");
+    Linearize.calibrate();
+    Serial.println("Done");
 }
 
 void loop(){
