@@ -20,7 +20,11 @@ class LinearizeClass {
     
     public:
         
+        const unsigned int max_value = 10000;
+        
         void calibrate(){
+            Serial.print(F("Calibrating... "));
+            
             unsigned long sum = 0;
             
             pinMode(PIN_RIBBON_A, OUTPUT);
@@ -36,14 +40,21 @@ class LinearizeClass {
             pinMode(PIN_RIBBON_B, INPUT);
             
             unsigned int apparent_r = reverse_divider( sum / (2*sample_count) );
+            unsigned int old = ribbon_r.get();
             ribbon_r.set( apparent_r );
-            Serial.print("Ribbon resistance: ");
-            Serial.println(ribbon_r.get());
+            
+            Serial.println(F("Done."));
+            Serial.print(F("Ribbon resistance is "));
+            Serial.print( apparent_r );
+            Serial.println(F(" ohms."));
+            Serial.print(F("Prior calibration was "));
+            Serial.print( old );
+            Serial.println(F(" ohms."));
         };
         
         unsigned int map(unsigned int val){
             double apparent_r = reverse_divider(val); //actual resistance between touch and meter, ohms
-            return (unsigned int)( apparent_r / ribbon_r.get() * 10000 ); //scale between [0, 10000]
+            return (unsigned int)( apparent_r / ribbon_r.get() * max_value ); //scale between [0, max_value]
         };
     
 };
@@ -52,4 +63,4 @@ class LinearizeClass {
 LinearizeClass Linearize;
 
 
-#endif
+#endif //LINEARIZE_H
