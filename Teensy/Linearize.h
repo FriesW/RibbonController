@@ -22,8 +22,7 @@ class LinearizeClass {
         
         const unsigned int max_value = 10000;
         
-        void calibrate(){
-            Serial.print(F("Calibrating... "));
+        void calibrate(unsigned int* old_v, unsigned int* new_v){
             
             unsigned long sum = 0;
             
@@ -40,16 +39,10 @@ class LinearizeClass {
             pinMode(PIN_RIBBON_B, INPUT);
             
             unsigned int apparent_r = reverse_divider( sum / (2*sample_count) );
-            unsigned int old = ribbon_r.get();
+            *old_v = ribbon_r.get();
             ribbon_r.set( apparent_r );
+            *new_v = ribbon_r.get();
             
-            Serial.println(F("Done."));
-            Serial.print(F("Ribbon resistance is "));
-            Serial.print( apparent_r );
-            Serial.println(F(" ohms."));
-            Serial.print(F("Prior calibration was "));
-            Serial.print( old );
-            Serial.println(F(" ohms."));
         };
         
         unsigned int map(unsigned int val){

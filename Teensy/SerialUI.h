@@ -17,9 +17,21 @@ class SerialUIClass{
         }
         
         void opt_1(){
+            unsigned int old_v;
+            unsigned int new_v;
             Serial.println(F("Don't touch ribbon during calibration."));
             delay(1000);
-            Linearize.calibrate();
+            Serial.print(F("Calibrating... "));
+            
+            Linearize.calibrate(&old_v, &new_v);
+            
+            Serial.println(F("Done."));
+            Serial.print(F("Ribbon resistance is "));
+            Serial.print( new_v );
+            Serial.println(F(" ohms."));
+            Serial.print(F("Prior calibration was "));
+            Serial.print( old_v );
+            Serial.println(F(" ohms."));
         }
     
     public:
