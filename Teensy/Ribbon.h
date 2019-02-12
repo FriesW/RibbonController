@@ -45,6 +45,7 @@ Metro _m_read (_take_reading, 4);
 Metro _m_flow (_out_flow, 15);
 Metro _m_raw (_out_raw, 15);
 
+ControlChannel _state;
 
 
 void _ribbon_init(){
@@ -52,8 +53,14 @@ void _ribbon_init(){
     _b.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_2, CC_MODE_HIGH_RES);
     _a.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_3, CC_MODE_HIGH_RES);
     _b.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_4, CC_MODE_HIGH_RES);
+    _state = ControlChannel(MIDI_CH, CC_CHANNEL_VOL, CC_MODE_LOW_RES);
     Ribbon.enable = _enable;
     Ribbon.disable = _disable;
+}
+
+void _sound_off(){
+    _state.send(0);
+    Quantizer.note_off();
 }
 
 void _enable(){
@@ -65,7 +72,7 @@ void _disable(){
     _m_read.stop();
     _m_flow.stop();
     _m_raw.stop();
-    Quantizer.note_off();
+    _sound_off();
 }
 
 void _take_reading(){
@@ -92,11 +99,12 @@ void _take_reading(){
     if(!running && !thres){
         _m_flow.start();
         _out_flow();
+        _state.send(127); //_sound_on
     }
     if(running && thres){
         _m_flow.stop();
         _out_flow();
-        Quantizer.note_off();
+        _sound_off();
     }
 }
 
