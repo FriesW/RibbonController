@@ -8,6 +8,7 @@
 #include "FIFO.h"
 #include "Scheduler/Scheduler.h"
 #include "Linearize.h"
+#include "RibbonChSel.h"
 #include "Quantizer.h"
 
 
@@ -100,10 +101,11 @@ void _take_reading(){
 }
 
 void _out_flow(){
-    unsigned int av = Linearize.map( _a.ff_sample.average() );
-    Quantizer.note_on(av);
-    _a.cc_flow.send(av);
-    _b.cc_flow.send(Linearize.map( _b.ff_sample.average() ));
+    unsigned int va = Linearize.map( _a.ff_sample.average() );
+    unsigned int vb = Linearize.max_value - Linearize.map( _b.ff_sample.average() );
+    Quantizer.note_on( RibbonChSel.process(va, vb) );
+    _a.cc_flow.send(va);
+    _b.cc_flow.send(vb);
 }
 
 void _out_raw(){

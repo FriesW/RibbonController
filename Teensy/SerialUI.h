@@ -4,7 +4,7 @@
 #include<Arduino.h>
 #include "Linearize.h"
 #include "Quantizer.h"
-
+#include "RibbonChSel.h"
 
 class SerialUIClass{
     
@@ -136,6 +136,16 @@ class SerialUIClass{
             Serial.print(ma);
             Serial.println(F("]"));
         }
+        
+        void opt_4(){
+            RibbonChSel.invert();
+            Serial.println(F("Inverted: quantized output"));
+        }
+        
+        void opt_5(){
+            RibbonChSel.toggle();
+            Serial.println(F("Toggled: ribbon end for quanted output"));
+        }
     
     public:
     
@@ -144,9 +154,11 @@ class SerialUIClass{
             if(!last_dtr && Serial.dtr()){
                 drop();
                 Serial.println(F("***** Ribbon Controller Settings *****"));
-                Serial.println(F("1 : ribbon length calibration"));
-                Serial.println(F("2 : quantized scale selection"));
-                Serial.println(F("3 : quantized scale range"));
+                Serial.println(F("1 : calibrate ribbon length/resistance"));
+                Serial.println(F("2 : set quantized scale selection"));
+                Serial.println(F("3 : set quantized scale range"));
+                Serial.println(F("4 : invert quantized output"));
+                Serial.println(F("5 : toggle ribbon end for quantized output"));
                 Serial.print(F("\r\n\r\n"));
             }
             last_dtr = Serial.dtr();
@@ -154,7 +166,7 @@ class SerialUIClass{
             if(!Serial.available())
                 return;
             char c = Serial.read();
-            if(c < '1' || c > '3'){
+            if(c < '1' || c > '5'){
                 last_dtr = false;
                 return;
             }
@@ -165,6 +177,8 @@ class SerialUIClass{
             if(c == '1') opt_1();
             if(c == '2') opt_2();
             if(c == '3') opt_3();
+            if(c == '4') opt_4();
+            if(c == '5') opt_5();
             
             Serial.println();
             drop();
