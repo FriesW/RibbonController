@@ -8,6 +8,7 @@
 #include "FIFO.h"
 #include "Scheduler/Scheduler.h"
 #include "Linearize.h"
+#include "Quantizer.h"
 
 
 struct RibbonChannel {
@@ -63,6 +64,7 @@ void _disable(){
     _m_read.stop();
     _m_flow.stop();
     _m_raw.stop();
+    Quantizer.note_off();
 }
 
 void _take_reading(){
@@ -93,11 +95,14 @@ void _take_reading(){
     if(running && thres){
         _m_flow.stop();
         _out_flow();
+        Quantizer.note_off();
     }
 }
 
 void _out_flow(){
-    _a.cc_flow.send(Linearize.map( _a.ff_sample.average() ));
+    unsigned int av = Linearize.map( _a.ff_sample.average() );
+    Quantizer.note_on(av);
+    _a.cc_flow.send(av);
     _b.cc_flow.send(Linearize.map( _b.ff_sample.average() ));
 }
 

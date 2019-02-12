@@ -3,6 +3,7 @@
 
 #include<Arduino.h>
 #include "Linearize.h"
+#include "Quantizer.h"
 
 
 class SerialUIClass{
@@ -90,6 +91,8 @@ class SerialUIClass{
                 return;
             }
             
+            Quantizer.set_scale(notes);
+            
             Serial.print("New scale: ");
             const char lut[] = "C^D^EF^G^A^B";
             for(byte i = 0; i < 12; i++){
@@ -124,6 +127,8 @@ class SerialUIClass{
             
             unsigned int mi = min(n1, n2);
             unsigned int ma = max(n1, n2);
+            
+            Quantizer.set_range(mi, ma);
             
             Serial.print(F("New range: ["));
             Serial.print(mi);
