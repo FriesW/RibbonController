@@ -1,7 +1,9 @@
-21mm total stackup
+Stackup (exposed bottom towards top):
 
-Stackup:
-L0 - 6mm
+L0 - 3mm
+glue
 L1 - 6mm
-L2(L0 derive) - 6mm
-L3 - 3mm
+
+L2 - 6mm
+
+L1 - 3mm

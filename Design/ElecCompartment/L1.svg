@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="L1.svg">
+   sodipodi:docname="L2.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,18 +26,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="328.90575"
-     inkscape:cy="284.33336"
+     inkscape:cx="-59.719075"
+     inkscape:cy="184.16809"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
-     inkscape:measure-start="69.5449,393.563"
-     inkscape:measure-end="50.6465,393.563" />
+     inkscape:window-width="1440"
+     inkscape:window-height="837"
+     inkscape:window-x="1912"
+     inkscape:window-y="172"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -57,7 +55,7 @@
      transform="translate(0,-177)">
     <path
        style="fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.99182409;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 0.49609375 10.841797 L 0.49609375 453.04688 L 38.039062 453.04688 L 38.039062 405.80273 L 18.519531 405.80273 L 18.519531 58.085938 L 50.646484 58.085938 L 50.646484 52.435547 L 40.683594 52.435547 L 40.683594 18.392578 L 50.646484 18.392578 L 50.646484 10.841797 L 0.49609375 10.841797 z M 69.544922 10.841797 L 69.544922 29.746094 L 60.230469 29.746094 C 56.451172 29.746094 56.451172 41.083984 60.230469 41.083984 L 69.544922 41.083984 L 69.544922 58.085938 L 101.66992 58.085938 L 101.66992 405.80273 L 82.152344 405.80273 L 82.152344 453.04688 L 119.69531 453.04688 L 119.69531 10.841797 L 69.544922 10.841797 z "
+       d="M 0.49609375 10.841797 L 0.49609375 453.04688 L 38.039062 453.04688 L 38.039062 405.80273 L 18.519531 405.80273 L 18.519531 58.085938 L 101.66992 58.085938 L 101.66992 405.80273 L 82.150391 405.80273 L 82.150391 453.04688 L 119.69531 453.04688 L 119.69531 10.841797 L 0.49609375 10.841797 z "
        transform="matrix(0.26458333,0,0,0.26458333,0,177)"
        id="rect5102-4" />
     <circle
