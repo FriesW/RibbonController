@@ -4,6 +4,9 @@ L0 - 3mm
 glue
 L1 - 6mm
 
-L2 - 6mm
+L2-L - 3mm
 
-L1 - 3mm
+L2-R - 6mm
+
+
+L3 - 3mm
