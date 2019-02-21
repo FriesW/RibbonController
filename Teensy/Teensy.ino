@@ -1,7 +1,9 @@
 //Teensy LC
+//Serial + MIDI
+//48 Mhz
+//Smallest code
 
 #include "ADC.h"
-#include "Settings.h"
 #include "Scheduler/Scheduler.h"
 #include "Ribbon.h"
 #include "SerialUI.h"
