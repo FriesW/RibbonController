@@ -13,16 +13,16 @@ class AdcWithSetup : public ADC {
             setAveraging(ADC_AVERAGES);
             setSamplingSpeed(ADC_SAMPLE_SPEED);
             setConversionSpeed(ADC_CONVERT_SPEED);
-        };
+        }
         
         const unsigned int max_reading = (1 << ADC_ACTUAL_RES) - 1;
         
         unsigned int read_A(){
             return analogRead(PIN_RIBBON_A) >> (ADC_SAMPLE_RES - ADC_ACTUAL_RES);
-        };
+        }
         unsigned int read_B(){
             return analogRead(PIN_RIBBON_B) >> (ADC_SAMPLE_RES - ADC_ACTUAL_RES);
-        };
+        }
     
 };
 

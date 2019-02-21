@@ -16,7 +16,7 @@ class LinearizeClass {
         
         double reverse_divider(unsigned int val){
             return (double)(val * const_r) / (adc.max_reading - val);
-        };
+        }
     
     public:
         
@@ -43,12 +43,12 @@ class LinearizeClass {
             ribbon_r.set( apparent_r );
             *new_v = ribbon_r.get();
             
-        };
+        }
         
         unsigned int map(unsigned int val){
             double apparent_r = reverse_divider(val); //actual resistance between touch and meter, ohms
             return (unsigned int)( apparent_r / ribbon_r.get() * max_value ); //scale between [0, max_value]
-        };
+        }
     
 };
 
