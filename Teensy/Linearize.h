@@ -2,7 +2,7 @@
 #define LINEARIZE_H
 
 #include<Arduino.h>
-#include "adc.h"
+#include "ADC.h"
 #include "Persist/Persist.h"
 
 class LinearizeClass {
