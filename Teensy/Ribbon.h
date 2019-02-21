@@ -12,7 +12,12 @@
 #include "Quantizer.h"
 
 
-struct RibbonChannel {
+
+void _metro_cb_take_reading();
+void _metro_cb_out_flow();
+void _metro_cb_out_raw();
+
+struct _RibbonChannel {
     ControlChannel cc_raw;
     ControlChannel cc_flow;
     FIFO<uint, 5> ff_tail;
@@ -20,106 +25,117 @@ struct RibbonChannel {
     FIFO<uint, 5> ff_head;
 };
 
-typedef void (*func_t)();
-struct StaticRibbon {
-    func_t setup;
-    func_t enable;
-    func_t disable;
+
+class RibbonClass {
+    
+    private:
+    
+        ControlChannel state;
+    
+        struct _RibbonChannel a;
+        struct _RibbonChannel b;
+    
+        Metro m_read;
+        Metro m_flow;
+        Metro m_raw;
+    
+        void sound_off(){
+            state.send(0);
+            Quantizer.note_off();
+        }
+    
+    
+    
+    public:
+    
+        void setup(){
+            a.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_1, CC_MODE_HIGH_RES);
+            b.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_2, CC_MODE_HIGH_RES);
+            a.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_3, CC_MODE_HIGH_RES);
+            b.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_4, CC_MODE_HIGH_RES);
+            state = ControlChannel(MIDI_CH, CC_CHANNEL_VOL, CC_MODE_LOW_RES);
+            
+            m_read = Metro(_metro_cb_take_reading, 4);
+            m_flow = Metro(_metro_cb_out_flow, 15);
+            m_raw = Metro(_metro_cb_out_raw, 15);
+        }
+        
+        
+        void enable(){
+            m_read.start();
+            m_raw.start();
+        }
+        
+        
+        void disable(){
+            m_read.stop();
+            m_flow.stop();
+            m_raw.stop();
+            sound_off();
+        }
+        
+        
+        void _take_reading(){
+            unsigned int va = adc.read_A();
+            unsigned int vb = adc.read_B();
+            a.ff_tail.push(
+              a.ff_sample.push(
+                a.ff_head.push( va )
+            ));
+            b.ff_tail.push(
+              b.ff_sample.push(
+                b.ff_head.push( vb )
+            ));
+            
+            bool thres =
+                a.ff_head.max() > 3200 ||
+                b.ff_head.max() > 3200 ||
+                a.ff_tail.max() > 3200 ||
+                b.ff_tail.max() > 3200 ||
+                a.ff_sample.max() > 3200 ||
+                b.ff_sample.max() > 3200;
+            bool running = m_flow.is_running();
+            
+            if(!running && !thres){
+                m_flow.start();
+                _out_flow();
+                state.send(127); //_sound_on
+            }
+            if(running && thres){
+                m_flow.stop();
+                _out_flow();
+                sound_off();
+            }
+        }
+
+        void _out_flow(){
+            unsigned int va = Linearize.map( a.ff_sample.average() );
+            unsigned int vb = Linearize.max_value - Linearize.map( b.ff_sample.average() );
+            Quantizer.note_on( RibbonChSel.process(va, vb) );
+            a.cc_flow.send(va);
+            b.cc_flow.send(vb);
+        }
+
+        void _out_raw(){
+            a.cc_raw.send( a.ff_head.average() );
+            b.cc_raw.send( b.ff_head.average() );
+        }
+        
+        
+    
 };
 
-void _ribbon_init();
-struct StaticRibbon Ribbon = {.setup = _ribbon_init};
+RibbonClass Ribbon;
 
 
-struct RibbonChannel _a;
-struct RibbonChannel _b;
-
-void _enable();
-void _disable();
-
-void _take_reading();
-void _out_flow();
-void _out_raw();
-
-Metro _m_read (_take_reading, 4);
-Metro _m_flow (_out_flow, 15);
-Metro _m_raw (_out_raw, 15);
-
-ControlChannel _state;
-
-
-void _ribbon_init(){
-    _a.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_1, CC_MODE_HIGH_RES);
-    _b.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_2, CC_MODE_HIGH_RES);
-    _a.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_3, CC_MODE_HIGH_RES);
-    _b.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_4, CC_MODE_HIGH_RES);
-    _state = ControlChannel(MIDI_CH, CC_CHANNEL_VOL, CC_MODE_LOW_RES);
-    Ribbon.enable = _enable;
-    Ribbon.disable = _disable;
-}
-
-void _sound_off(){
-    _state.send(0);
-    Quantizer.note_off();
-}
-
-void _enable(){
-    _m_read.start();
-    _m_raw.start();
-}
-
-void _disable(){
-    _m_read.stop();
-    _m_flow.stop();
-    _m_raw.stop();
-    _sound_off();
-}
-
-void _take_reading(){
-    unsigned int va = adc.read_A();
-    unsigned int vb = adc.read_B();
-    _a.ff_tail.push(
-      _a.ff_sample.push(
-        _a.ff_head.push( va )
-    ));
-    _b.ff_tail.push(
-      _b.ff_sample.push(
-        _b.ff_head.push( vb )
-    ));
-    
-    bool thres =
-        _a.ff_head.max() > 3200 ||
-        _b.ff_head.max() > 3200 ||
-        _a.ff_tail.max() > 3200 ||
-        _b.ff_tail.max() > 3200 ||
-        _a.ff_sample.max() > 3200 ||
-        _b.ff_sample.max() > 3200;
-    bool running = _m_flow.is_running();
-    
-    if(!running && !thres){
-        _m_flow.start();
-        _out_flow();
-        _state.send(127); //_sound_on
-    }
-    if(running && thres){
-        _m_flow.stop();
-        _out_flow();
-        _sound_off();
-    }
-}
-
-void _out_flow(){
-    unsigned int va = Linearize.map( _a.ff_sample.average() );
-    unsigned int vb = Linearize.max_value - Linearize.map( _b.ff_sample.average() );
-    Quantizer.note_on( RibbonChSel.process(va, vb) );
-    _a.cc_flow.send(va);
-    _b.cc_flow.send(vb);
-}
-
-void _out_raw(){
-    _a.cc_raw.send( _a.ff_head.average() );
-    _b.cc_raw.send( _b.ff_head.average() );
-}
-
+void _metro_cb_take_reading(){
+    Ribbon._take_reading();
+};
+void _metro_cb_out_flow(){
+    Ribbon._out_flow();
+};
+void _metro_cb_out_raw(){
+    Ribbon._out_raw();
+};
 
 #endif //RIBBON_H
