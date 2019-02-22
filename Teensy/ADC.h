@@ -17,11 +17,8 @@ class AdcWithSetup : public ADC {
         
         const unsigned int max_reading = (1 << ADC_ACTUAL_RES) - 1;
         
-        unsigned int read_A(){
-            return analogRead(PIN_RIBBON_A) >> (ADC_SAMPLE_RES - ADC_ACTUAL_RES);
-        }
-        unsigned int read_B(){
-            return analogRead(PIN_RIBBON_B) >> (ADC_SAMPLE_RES - ADC_ACTUAL_RES);
+        unsigned int read(unsigned int pin){
+            return analogRead(pin) >> (ADC_SAMPLE_RES - ADC_ACTUAL_RES);
         }
     
 };

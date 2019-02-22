@@ -13,9 +13,9 @@
 
 
 
-void _metro_cb_take_reading();
-void _metro_cb_out_flow();
-void _metro_cb_out_raw();
+void _rib_metro_cb_take_reading();
+void _rib_metro_cb_out_flow();
+void _rib_metro_cb_out_raw();
 
 struct _RibbonChannel {
     ControlChannel cc_raw;
@@ -55,9 +55,9 @@ class RibbonClass {
             b.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_4, CC_MODE_HIGH_RES);
             state = ControlChannel(MIDI_CH, CC_CHANNEL_VOL, CC_MODE_LOW_RES);
             
-            m_read = Metro(_metro_cb_take_reading, 4);
-            m_flow = Metro(_metro_cb_out_flow, 15);
-            m_raw = Metro(_metro_cb_out_raw, 15);
+            m_read = Metro(_rib_metro_cb_take_reading, 4);
+            m_flow = Metro(_rib_metro_cb_out_flow, 15);
+            m_raw = Metro(_rib_metro_cb_out_raw, 15);
         }
         
         
@@ -76,8 +76,8 @@ class RibbonClass {
         
         
         void _take_reading(){
-            unsigned int va = adc.read_A();
-            unsigned int vb = adc.read_B();
+            unsigned int va = adc.read(PIN_RIBBON_A);
+            unsigned int vb = adc.read(PIN_RIBBON_B);
             a.ff_tail.push(
               a.ff_sample.push(
                 a.ff_head.push( va )
@@ -128,13 +128,13 @@ class RibbonClass {
 RibbonClass Ribbon;
 
 
-void _metro_cb_take_reading(){
+void _rib_metro_cb_take_reading(){
     Ribbon._take_reading();
 };
-void _metro_cb_out_flow(){
+void _rib_metro_cb_out_flow(){
     Ribbon._out_flow();
 };
-void _metro_cb_out_raw(){
+void _rib_metro_cb_out_raw(){
     Ribbon._out_raw();
 };
 

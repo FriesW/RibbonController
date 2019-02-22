@@ -6,6 +6,7 @@
 #include "ADC.h"
 #include "Scheduler/Scheduler.h"
 #include "Ribbon.h"
+#include "Expression.h"
 #include "SerialUI.h"
 
 #define uint unsigned int
@@ -14,10 +15,6 @@
 
 #define led 13
 
-
-
-
-//ControlChannel expr (MIDI_CH, CC_EXPRESSION_CTRL, CC_MODE_HIGH_RES);
 Metro heart_beat (alive, 500);
 
 
@@ -27,8 +24,12 @@ void setup(){
     pinMode(led, OUTPUT);
     
     heart_beat.start();
+    
     Ribbon.setup();
     Ribbon.enable();
+    
+    Expression.setup();
+    Expression.enable();
 }
 
 void loop(){

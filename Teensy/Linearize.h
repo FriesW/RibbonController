@@ -3,6 +3,7 @@
 
 #include<Arduino.h>
 #include "ADC.h"
+#include "Settings.h"
 #include "Persist/Persist.h"
 
 class LinearizeClass {
@@ -29,13 +30,13 @@ class LinearizeClass {
             pinMode(PIN_RIBBON_A, OUTPUT);
             digitalWrite(PIN_RIBBON_A, LOW);
             for(unsigned int i = 0; i < sample_count; i++)
-                sum += adc.read_B();
+                sum += adc.read(PIN_RIBBON_B);
             pinMode(PIN_RIBBON_A, INPUT);
             
             pinMode(PIN_RIBBON_B, OUTPUT);
             digitalWrite(PIN_RIBBON_B, LOW);
             for(unsigned int i = 0; i < sample_count; i++)
-                sum += adc.read_A();
+                sum += adc.read(PIN_RIBBON_A);
             pinMode(PIN_RIBBON_B, INPUT);
             
             unsigned int apparent_r = reverse_divider( sum / (2*sample_count) );
