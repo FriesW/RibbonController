@@ -14,7 +14,7 @@
 #define PIN_RIBBON_A   A2
 #define PIN_RIBBON_B   A3
 
-#define PIN_EXPRESSION A4 //TODO
+#define PIN_EXPRESSION A7
 
 //Bits & averaging
 #define ADC_SAMPLE_RES 12 //max 16

@@ -15,7 +15,7 @@
 
 #define led 13
 
-Metro heart_beat (alive, 500);
+Metro heart_beat;
 
 
 void setup(){
@@ -23,6 +23,7 @@ void setup(){
     
     pinMode(led, OUTPUT);
     
+    heart_beat = Metro(alive, 500);
     heart_beat.start();
     
     Ribbon.setup();
@@ -30,6 +31,8 @@ void setup(){
     
     Expression.setup();
     Expression.enable();
+    
+    digitalWrite(led, HIGH);
 }
 
 void loop(){
@@ -39,7 +42,7 @@ void loop(){
 }
 
 void alive(){
-    static boolean last = false;
+    static boolean last = true;
     digitalWrite(led, last);
     last = !last;
 }

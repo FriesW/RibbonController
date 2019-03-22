@@ -7,6 +7,7 @@ Metro::Metro(func_t func, unsigned long period){
     function = func;
     cycle = period;
     running = false;
+    next = NULL;
     //Add to linked list
     //First Metro made
     if(MetroManager.first == NULL){

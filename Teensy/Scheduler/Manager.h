@@ -10,10 +10,10 @@ class ManagerClass {
         bool update();
     
     //Should not be externally accessed
-        Metro* first;
+        Metro* first = NULL;
     
     private:
-        Metro* current;
+        Metro* current = NULL;
 
 };
 
