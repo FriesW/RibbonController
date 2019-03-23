@@ -19,7 +19,6 @@ class Metro {
         bool _if_check_then_run();
     
         func_t function;
-        Metro* next = NULL;
         unsigned long cycle;
         elapsedMillis delta;
         bool running;

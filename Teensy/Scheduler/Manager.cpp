@@ -1,22 +1,33 @@
-bool ManagerClass::update(){
-    if(first == NULL)
-        return false;
-    if(current == NULL)
-        current = first;
-    
-    Metro* last_attempt = current;
-    
-    do{
-        //Move one forward
-        current = current->next;
-        if(current == NULL)
-            current = first;
-        
-        //Check runstate
-        if(current->_if_check_then_run())
-            return true;
-        
-    }while(current != last_attempt);
-    
-    return false;
+/*void ManagerClass::update(){
+    Serial.println("B");
+    Serial.println(length);
+    for(unsigned int i = 0; i < length; i++){
+        unsigned int t = (i + last) % length;
+        Serial.println(t);
+        if(metros[t]->_if_check_then_run()){
+            last = t+1;
+            Serial.println("EE");
+            return;
+        }
+    }
+    Serial.println("E");
+}*/
+
+void ManagerClass::attach(Metro* m){
+    metros[length] = m;
+    length++;
+}
+
+
+
+void ManagerClass::update(){
+    Serial.println("B");
+    Serial.println(length);
+    for(unsigned int i = 0; i < length; i++){
+        Serial.println(i);
+        if(metros[i]->_if_check_then_run()){
+            Serial.println("EE");
+        }
+    }
+    Serial.println("E");
 }
