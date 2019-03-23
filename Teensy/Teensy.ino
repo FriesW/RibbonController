@@ -15,7 +15,7 @@
 
 #define led 13
 
-Metro heart_beat;
+Metro heart_beat = Metro(alive, 500);
 
 
 void setup(){
@@ -23,7 +23,6 @@ void setup(){
     
     pinMode(led, OUTPUT);
     
-    heart_beat = Metro(alive, 500);
     heart_beat.start();
     
     Ribbon.setup();
