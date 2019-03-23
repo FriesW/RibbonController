@@ -10,9 +10,8 @@ Metro::Metro(func_t func, unsigned long period){
     next = NULL;
     //Add to linked list
     //First Metro made
-    if(MetroManager.first == NULL){
+    if(MetroManager.first == NULL)
         MetroManager.first = this;
-    }
     //Add to end of list
     else{
         Metro* last = MetroManager.first;

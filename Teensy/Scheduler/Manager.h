@@ -6,13 +6,13 @@
 class ManagerClass {
 
     public:
-        
+
         bool update();
-    
+
     //Should not be externally accessed
         Metro* first = NULL;
-    
-    private:
+
+    //private:
         Metro* current = NULL;
 
 };

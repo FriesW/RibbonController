@@ -5,7 +5,7 @@
 
 typedef void (*func_t)();//(int,int);
 class Metro {
-    
+
     public:
         Metro();
         Metro(func_t, unsigned long);
@@ -13,13 +13,13 @@ class Metro {
         void start();
         void stop();
         bool is_running() const;
-        
+
     //Should not be externally accessed
-    
+
         bool _if_check_then_run();
-    
+
         func_t function;
-        Metro* next;
+        Metro* next = NULL;
         unsigned long cycle;
         elapsedMillis delta;
         bool running;
