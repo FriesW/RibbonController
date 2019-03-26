@@ -80,6 +80,45 @@ class QuantizerClass {
                 usbMIDI.sendNoteOff(last_note, 0, MIDI_CH);
             last_note = 255;
         }
+        
+        void debug_print(){
+            debug_print(false);
+        }
+        
+        void debug_print(boolean verbose){
+            static const char lut[] = "C^D^EF^G^A^B";
+            unsigned short scale = scale_notes.get();
+            
+            byte notes[12];
+            for(byte i = 0; i < 12; i++){
+                notes[i] = scale & 1;
+                scale = scale >> 1;
+            }
+            
+            Serial.print(F("Notes: "));
+            for(byte i = 0; i < 12; i++){
+                if(notes[i])
+                    Serial.print(lut[i]);
+                else
+                    Serial.print('_');
+            }
+            Serial.print(F("\nMIDI Range: ["));
+            Serial.print(minimum.get());
+            Serial.print(F(", "));
+            Serial.print(maximum.get());
+            Serial.println(F("]"));
+            
+            if(!verbose)
+                return;
+            
+            Serial.println(F("Note sequence LUT:"));
+            for(byte i = 0 ; i < note_count; i++){
+                Serial.print(note_dict[i]);
+                Serial.print(' ');
+            }
+            Serial.println();
+            
+        }
     
 };
 

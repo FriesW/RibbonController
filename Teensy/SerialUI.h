@@ -100,16 +100,7 @@ class SerialUIClass{
             
             Quantizer.set_scale(notes);
             
-            Serial.print("New scale: ");
-            const char lut[] = "C^D^EF^G^A^B";
-            for(byte i = 0; i < 12; i++){
-                if(notes[i])
-                    Serial.print(lut[i]);
-                else
-                    Serial.print('_');
-            }
-            Serial.println();
-            
+            Quantizer.debug_print();
         }
         
         void opt_4(){
@@ -137,11 +128,7 @@ class SerialUIClass{
             
             Quantizer.set_range(mi, ma);
             
-            Serial.print(F("New range: ["));
-            Serial.print(mi);
-            Serial.print(F(", "));
-            Serial.print(ma);
-            Serial.println(F("]"));
+            Quantizer.debug_print();
         }
         
         void opt_5(){
@@ -151,7 +138,11 @@ class SerialUIClass{
         
         void opt_6(){
             RibbonChSel.toggle();
-            Serial.println(F("Toggled: ribbon end for quanted output"));
+            Serial.println(F("Toggled: ribbon end for quantized output"));
+        }
+        
+        void opt_7(){
+            Quantizer.debug_print(true);
         }
     
     public:
@@ -167,6 +158,7 @@ class SerialUIClass{
                 Serial.println(F("4 : set quantized scale range"));
                 Serial.println(F("5 : invert quantized output"));
                 Serial.println(F("6 : toggle ribbon end for quantized output"));
+                Serial.println(F("7 : print quantizer status"));
                 Serial.print(F("\r\n\r\n"));
             }
             last_dtr = Serial.dtr();
@@ -174,7 +166,7 @@ class SerialUIClass{
             if(!Serial.available())
                 return;
             char c = Serial.read();
-            if(c < '1' || c > '5'){
+            if(c < '1' || c > '7'){
                 last_dtr = false;
                 return;
             }
@@ -188,6 +180,7 @@ class SerialUIClass{
             if(c == '4') opt_4();
             if(c == '5') opt_5();
             if(c == '6') opt_6();
+            if(c == '7') opt_7();
             
             Serial.println();
             drop();
