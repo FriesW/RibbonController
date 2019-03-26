@@ -15,7 +15,7 @@
 
 #define led 13
 
-Metro heart_beat = Metro(alive, 500);
+Metro heart_beat (alive, 500);
 
 
 void setup(){

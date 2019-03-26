@@ -9,6 +9,7 @@ class Metro {
     public:
         Metro();
         Metro(func_t, unsigned long);
+        void init(func_t, unsigned long);
         void period(unsigned long);
         void start();
         void stop();
@@ -17,12 +18,13 @@ class Metro {
     //Should not be externally accessed
     
         bool _if_check_then_run();
-    
-        func_t function;
         Metro* next = NULL;
-        unsigned long cycle;
+    
+    private:
+        func_t function = NULL;
+        bool running = false;
+        unsigned long cycle = 0;
         elapsedMillis delta;
-        bool running;
 };
 
 #endif //METRO_H
