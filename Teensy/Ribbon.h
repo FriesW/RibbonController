@@ -49,14 +49,14 @@ class RibbonClass {
     public:
     
         void setup(){
-            a.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_1, CC_MODE_HIGH_RES);
-            b.cc_flow = ControlChannel(MIDI_CH, CC_GEN_REG_2, CC_MODE_HIGH_RES);
-            a.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_3, CC_MODE_HIGH_RES);
-            b.cc_raw  = ControlChannel(MIDI_CH, CC_GEN_REG_4, CC_MODE_HIGH_RES);
-            state = ControlChannel(MIDI_CH, CC_CHANNEL_VOL, CC_MODE_LOW_RES);
-            m_read = Metro(_rib_metro_cb_take_reading, 4);
-            m_flow = Metro(_rib_metro_cb_out_flow, 15);
-            m_raw = Metro(_rib_metro_cb_out_raw, 15);
+            a.cc_flow.init(MIDI_CH, CC_GEN_REG_1, CC_MODE_HIGH_RES);
+            b.cc_flow.init(MIDI_CH, CC_GEN_REG_2, CC_MODE_HIGH_RES);
+            a.cc_raw.init(MIDI_CH, CC_GEN_REG_3, CC_MODE_HIGH_RES);
+            b.cc_raw.init(MIDI_CH, CC_GEN_REG_4, CC_MODE_HIGH_RES);
+            state.init(MIDI_CH, CC_CHANNEL_VOL, CC_MODE_LOW_RES);
+            m_read.init(_rib_metro_cb_take_reading, 4);
+            m_flow.init(_rib_metro_cb_out_flow, 15);
+            m_raw.init(_rib_metro_cb_out_raw, 15);
         }
         
         
