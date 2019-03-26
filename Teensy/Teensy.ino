@@ -14,21 +14,20 @@
 void alive();
 void ping();
 
-Metro* heart_beat;// = Metro(alive, 500);
+Metro heart_beat (alive, 500);
 
-Metro* eve[10];
+Metro eve[10];
 
 void setup(){
     Serial.begin(0);
     while (!Serial.dtr());
     
     for(uint i = 0; i < 10; i++){
-        eve[i] = new Metro(&ping, i + 500);
-        eve[i]->start();
+        eve[i].init(&ping, i + 500);
+        eve[i].start();
     }
     
-    heart_beat = new Metro(&alive, 500);
-    heart_beat->start();
+    heart_beat.start();
     
     pinMode(led, OUTPUT);
     digitalWrite(led, HIGH);

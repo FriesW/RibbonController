@@ -20,6 +20,7 @@ class Metro {
     
         bool _if_check_then_run();
     
+        void init(void(*)(), unsigned long);
         void(*function)();
         unsigned long cycle;
         elapsedMillis delta;
@@ -70,6 +71,10 @@ Metro::Metro(){
 }
 
 Metro::Metro(void(*func)(), unsigned long period){
+    init(func, period);
+}
+
+void Metro::init(void(*func)(), unsigned long period){
     function = func;
     cycle = period;
     running = false;
