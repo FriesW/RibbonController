@@ -46,8 +46,9 @@ class ExpressionClass {
         }
         
         void reset_range(){
-            minimum = samples.average();
-            maximum = samples.average();
+            unsigned int v = samples.average();
+            minimum = v;
+            maximum = v;
         }
         
         void enable(){
@@ -71,7 +72,7 @@ class ExpressionClass {
             minimum = min(minimum, v);
             maximum = max(maximum, v);
             }
-            cc.send( map(v, minimum, maximum, 0, 0b11111111111111) );
+            cc.send( map(v, minimum, maximum, 0, 10000) );
         }
         
         void _writeout(){
