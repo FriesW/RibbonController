@@ -3,14 +3,14 @@
 
 #include <Arduino.h>
 
-typedef void (*func_t)();
+//typedef void (*func_t)();
 
 
 class Metro {
     
     public:
         Metro();
-        Metro(func_t, unsigned long);
+        Metro(void (*)(), unsigned long);
         void period(unsigned long);
         void start();
         void stop();
@@ -20,7 +20,7 @@ class Metro {
     
         bool _if_check_then_run();
     
-        func_t function;
+        void(*function)();
         unsigned long cycle;
         elapsedMillis delta;
         bool running;
@@ -46,15 +46,11 @@ void ManagerClass::attach(Metro* m){
 }
 
 void ManagerClass::update(){
-    Serial.println("B");
-    Serial.println(length);
     for(unsigned int i = 0; i < length; i++){
-        Serial.println(i);
         if(metros[i]->_if_check_then_run()){
-            Serial.println("EE");
+            return;
         }
     }
-    Serial.println("E");
 }
 
 
@@ -66,7 +62,7 @@ Metro::Metro(){
     running = false;
 }
 
-Metro::Metro(func_t func, unsigned long period){
+Metro::Metro(void(*func)(), unsigned long period){
     function = func;
     cycle = period;
     running = false;
@@ -101,7 +97,7 @@ bool Metro::_if_check_then_run(){
     unsigned int events_passed = delta_static / cycle;
     if(!events_passed)
         return false;
-    function();
+    (*function)();
     delta -= cycle * events_passed;
     return true;
 }

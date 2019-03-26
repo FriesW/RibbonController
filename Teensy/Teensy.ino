@@ -1,13 +1,9 @@
 //Teensy LC
-//Serial + MIDI
+//Serial
 //48 Mhz
 //Smallest code
 
-#include "ADC.h"
 #include "Scheduler.h"
-#include "Ribbon.h"
-#include "Expression.h"
-#include "SerialUI.h"
 
 #define uint unsigned int
 #define ulong unsigned long
@@ -17,37 +13,36 @@
 
 void alive();
 
-Metro heart_beat = Metro(&alive, 500);
+Metro heart_beat;// = Metro(alive, 500);
 
+Metro eve[10];
 
 void setup(){
     Serial.begin(0);
-    while (!Serial.dtr()) ;
-    pinMode(led, OUTPUT);
+    while (!Serial.dtr());
     
+    for(uint i = 0; i < 10; i++){
+        eve[i] = Metro(ping, i + 500);
+        eve[i].start();
+    }
+    
+    heart_beat = Metro(alive, 500);
     heart_beat.start();
     
-    Ribbon.setup();
-    Ribbon.enable();
-    
-    Expression.setup();
-    Expression.enable();
-    
+    pinMode(led, OUTPUT);
     digitalWrite(led, HIGH);
 }
 
 void loop(){
-    databurn();
     MetroManager.update();
-    //SerialUI.update();
+}
+
+void ping(){
+    Serial.println(millis());
 }
 
 void alive(){
     static boolean last = true;
     digitalWrite(led, last);
     last = !last;
-}
-
-void databurn(){
-    while(usbMIDI.read()); //Drop any incoming data
 }
