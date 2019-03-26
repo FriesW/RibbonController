@@ -67,8 +67,10 @@ class ExpressionClass {
         
         void _out(){
             unsigned int v = samples.average();
+            if(samples.flushed()){
             minimum = min(minimum, v);
             maximum = max(maximum, v);
+            }
             cc.send( map(v, minimum, maximum, 0, 0b11111111111111) );
         }
         
