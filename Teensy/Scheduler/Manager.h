@@ -7,12 +7,13 @@ class ManagerClass {
 
     public:
         
-        void update();
-        void attach(Metro*);
+        bool update();
+    
+    //Should not be externally accessed
+        Metro* first = NULL;
     
     private:
-        Metro* metros[50];
-        unsigned int length = 0;
+        Metro* current = NULL;
 
 };
 
