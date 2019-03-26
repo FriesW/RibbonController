@@ -30,7 +30,7 @@ class Metro {
 class ManagerClass {
 
     public:
-        
+        ManagerClass();
         void update();
         void attach(Metro*);
     
@@ -39,6 +39,10 @@ class ManagerClass {
         unsigned int length = 0;
 
 };
+
+ManagerClass::ManagerClass(){
+    length = 0;
+}
 
 void ManagerClass::attach(Metro* m){
     metros[length] = m;
@@ -54,7 +58,10 @@ void ManagerClass::update(){
 }
 
 
-ManagerClass MetroManager;
+ManagerClass* MetroManager(){
+    static ManagerClass m;
+    return &m;
+}
 
 
 Metro::Metro(){
@@ -66,7 +73,7 @@ Metro::Metro(void(*func)(), unsigned long period){
     function = func;
     cycle = period;
     running = false;
-    MetroManager.attach(this);
+    MetroManager()->attach(this);
 }
 
 void Metro::start(){
