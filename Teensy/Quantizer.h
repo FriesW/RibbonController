@@ -102,7 +102,7 @@ class QuantizerClass {
                 else
                     Serial.print('_');
             }
-            Serial.print(F("\nMIDI Range: ["));
+            Serial.print(F("\r\nMIDI Range: ["));
             Serial.print(minimum.get());
             Serial.print(F(", "));
             Serial.print(maximum.get());

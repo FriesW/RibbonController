@@ -77,7 +77,7 @@ class SerialUIClass{
                     notes[i] = true;
                 else if ( v=='_' || v=='-' || v=='*' || v==',' || v=='.' || v=='/' || v=='\\' || v=='?' || v=='\'' || v==' ' )
                     notes[i] = false;
-                else if (v=='r' || v=='\n'){
+                else if (v=='\r' || v=='\n'){
                     i--;
                 }
                 else{
@@ -159,7 +159,8 @@ class SerialUIClass{
                 Serial.println(F("5 : invert quantized output"));
                 Serial.println(F("6 : toggle ribbon end for quantized output"));
                 Serial.println(F("7 : print quantizer status"));
-                Serial.print(F("\r\n\r\n"));
+                Serial.print(F("\r\n"));
+                Serial.println(F("CMD->"));
             }
             last_dtr = Serial.dtr();
             
@@ -183,6 +184,7 @@ class SerialUIClass{
             if(c == '7') opt_7();
             
             Serial.println();
+            Serial.println(F("CMD->"));
             drop();
         };
     
