@@ -25,6 +25,8 @@ class Persist {
         }
         
         void set(T n){
+            if(n == value)
+                return;
             value = n;
             if(working())
                 EEPROM.put(addr, value);

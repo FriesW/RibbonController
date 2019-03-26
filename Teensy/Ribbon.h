@@ -129,12 +129,12 @@ RibbonClass Ribbon;
 
 void _rib_metro_cb_take_reading(){
     Ribbon._take_reading();
-};
+}
 void _rib_metro_cb_out_flow(){
     Ribbon._out_flow();
-};
+}
 void _rib_metro_cb_out_raw(){
     Ribbon._out_raw();
-};
+}
 
 #endif //RIBBON_H

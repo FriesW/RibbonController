@@ -5,6 +5,7 @@
 #include "Linearize.h"
 #include "Quantizer.h"
 #include "RibbonChSel.h"
+#include "Expression.h"
 
 class SerialUIClass{
     
@@ -54,6 +55,12 @@ class SerialUIClass{
         }
         
         void opt_2(){
+            Expression.reset_range();
+            Serial.println(F("Expression lever range has been reset."));
+            Serial.println(F("Move expression lever through entire movement range."));
+        }
+        
+        void opt_3(){
             Serial.println(F("Input new quantization scale."));
             Serial.println(F("Input 12 characters, representing the twelve chromatic scale notes, starting at 'C'."));
             Serial.println(F(" In: [a-z|A-Z|#^] -> A letter or '#' or '^' will include that note's position in the scale."));
@@ -105,7 +112,7 @@ class SerialUIClass{
             
         }
         
-        void opt_3(){
+        void opt_4(){
             Serial.println(F("Input new quantized scale range."));
             Serial.println(F("Input two midi note numbers [0,127]:"));
             
@@ -137,12 +144,12 @@ class SerialUIClass{
             Serial.println(F("]"));
         }
         
-        void opt_4(){
+        void opt_5(){
             RibbonChSel.invert();
             Serial.println(F("Inverted: quantized output"));
         }
         
-        void opt_5(){
+        void opt_6(){
             RibbonChSel.toggle();
             Serial.println(F("Toggled: ribbon end for quanted output"));
         }
@@ -155,10 +162,11 @@ class SerialUIClass{
                 drop();
                 Serial.println(F("***** Ribbon Controller Settings *****"));
                 Serial.println(F("1 : calibrate ribbon length/resistance"));
-                Serial.println(F("2 : set quantized scale selection"));
-                Serial.println(F("3 : set quantized scale range"));
-                Serial.println(F("4 : invert quantized output"));
-                Serial.println(F("5 : toggle ribbon end for quantized output"));
+                Serial.println(F("2 : calibrate expression lever"));
+                Serial.println(F("3 : set quantized scale selection"));
+                Serial.println(F("4 : set quantized scale range"));
+                Serial.println(F("5 : invert quantized output"));
+                Serial.println(F("6 : toggle ribbon end for quantized output"));
                 Serial.print(F("\r\n\r\n"));
             }
             last_dtr = Serial.dtr();
@@ -179,6 +187,7 @@ class SerialUIClass{
             if(c == '3') opt_3();
             if(c == '4') opt_4();
             if(c == '5') opt_5();
+            if(c == '6') opt_6();
             
             Serial.println();
             drop();
