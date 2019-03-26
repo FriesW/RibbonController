@@ -4,7 +4,7 @@
 //Smallest code
 
 #include "ADC.h"
-#include "Scheduler/Scheduler.h"
+#include "Scheduler.h"
 #include "Ribbon.h"
 #include "Expression.h"
 #include "SerialUI.h"
@@ -15,12 +15,14 @@
 
 #define led 13
 
-Metro heart_beat = Metro(alive, 500);
+void alive();
+
+Metro heart_beat = Metro(&alive, 500);
 
 
 void setup(){
     Serial.begin(0);
-    
+    while (!Serial.dtr()) ;
     pinMode(led, OUTPUT);
     
     heart_beat.start();
@@ -37,7 +39,7 @@ void setup(){
 void loop(){
     databurn();
     MetroManager.update();
-    SerialUI.update();
+    //SerialUI.update();
 }
 
 void alive(){
