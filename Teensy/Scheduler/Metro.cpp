@@ -9,19 +9,11 @@ void Metro::init(func_t func, unsigned long period){
     running = false;
     cycle = period;
     
-    //Add to linked list
-    //First Metro made
-    if(MetroManager.first == NULL){
-        MetroManager.first = this;
-    }
-    //Add to end of list
-    else{
-        Metro* last = MetroManager.first;
-        while(last->next != NULL){
-            last = last->next;
-            last->next = this;
-        }
-    }
+    //Add to circular linked list
+    if(MetroManager.current == NULL)
+        MetroManager.current = this;
+    next = MetroManager.current->next;
+    MetroManager.current->next = this;
 }
 
 void Metro::start(){
