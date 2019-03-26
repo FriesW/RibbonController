@@ -5,12 +5,20 @@ ControlChannel::ControlChannel(){
 }
 
 ControlChannel::ControlChannel(byte channel, byte msb){
+    init(channel, msb);
+}
+
+ControlChannel::ControlChannel(byte channel, byte msb, byte resolution){
+    init(channel, msb, resolution);
+}
+
+void ControlChannel::init(byte channel, byte msb){
     ch = channel;
     mode = CC_MODE_LOW_RES;
     reg_msb = msb;
 }
 
-ControlChannel::ControlChannel(byte channel, byte msb, byte resolution){
+void ControlChannel::init(byte channel, byte msb, byte resolution){
     ch = channel;
     mode = resolution;
     reg_msb = msb;

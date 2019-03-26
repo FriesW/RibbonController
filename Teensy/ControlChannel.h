@@ -31,6 +31,8 @@ class ControlChannel {
         ControlChannel();
         ControlChannel(byte channel, byte msb);
         ControlChannel(byte channel, byte msb, byte resolution);
+        void init(byte, byte);
+        void init(byte, byte, byte);
         
         int send(unsigned int value);
         

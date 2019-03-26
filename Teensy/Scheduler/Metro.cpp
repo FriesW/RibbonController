@@ -1,5 +1,4 @@
-Metro::Metro(){
-}
+Metro::Metro(){}
 
 Metro::Metro(func_t func, unsigned long period){
     init(func, period);
@@ -12,8 +11,9 @@ void Metro::init(func_t func, unsigned long period){
     
     //Add to linked list
     //First Metro made
-    if(MetroManager.first == NULL)
+    if(MetroManager.first == NULL){
         MetroManager.first = this;
+    }
     //Add to end of list
     else{
         Metro* last = MetroManager.first;
