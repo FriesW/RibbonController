@@ -44,7 +44,7 @@
 #X obj 553 98 metro 500;
 #X msg 606 360 \$1 500;
 #X obj 657 199 vsl 15 64 0 64 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2362 1;
+-1 -1 3248 1;
 #X obj 619 630 *~;
 #X obj 603 653 +~;
 #X obj 602 703 lop~ 1600;
@@ -61,7 +61,7 @@
 #X msg 102 106 \$1 5;
 #X obj 102 127 line~;
 #X obj 102 148 s~ \$0fund;
-#X floatatom 172 86 7 0 0 0 - loadHarm -;
+#X floatatom 172 45 7 0 0 0 - loadHarm -;
 #X obj 172 127 line~;
 #X obj 172 148 s~ \$0harm;
 #X floatatom 242 86 5 0 0 0 - loadDepth -;
@@ -82,7 +82,7 @@
 #X obj 856 388 line~;
 #X msg 856 360 \$1 500;
 #X obj 907 199 vsl 15 64 0 64 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2559 1;
+-1 -1 3445 1;
 #X floatatom 953 299 7 0 0 0 - loadWalkLow -;
 #X floatatom 1051 299 7 0 0 0 - loadWalkHigh -;
 #X obj 856 336 expr $f1 * ($f3 - $f2) / 64 + $f2;
@@ -152,12 +152,10 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X obj 1466 421 CC 11;
 #X floatatom 1268 297 5 0 0 1 expr_max load_e_max e_max;
 #X floatatom 1268 277 5 0 0 1 expr_min load_e_min e_min;
-#X obj 1566 416 r e_min;
-#X obj 1627 416 r e_max;
+#X obj 1511 463 r e_min;
+#X obj 1603 418 r e_max;
 #X obj 1461 297 expr $f1/10000 * ($f3 - $f2) + $f2;
-#X obj 1466 463 max 0;
-#X obj 1466 484 s loadDepth;
-#X obj 1466 442 expr $f1/10000 * ($f3 - $f2) + $f2;
+#X obj 1466 504 s loadDepth;
 #X obj 255 686 loadbang;
 #X obj 255 727 t b b;
 #X obj 255 707 bng 15 250 50 0 empty empty reset 17 7 0 10 -262144
@@ -165,7 +163,7 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X obj 1474 571 CC 16;
 #X obj 1558 571 CC 17;
 #X obj 1474 594 expr abs($f1 - $f2);
-#X floatatom 1268 347 5 0 0 1 max_value loard_harm_val harm_val;
+#X floatatom 1268 347 5 0 0 1 max_value load_harm_val harm_val;
 #X floatatom 1268 327 5 0 0 1 max_spread load_harm_spread harm_spread
 ;
 #X obj 1489 614 r harm_spread;
@@ -174,10 +172,17 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X obj 1534 656 r harm_val;
 #X obj 1474 677 expr $f2 - $f1 * $f2;
 #X obj 1474 719 s loadHarm;
-#X msg 172 106 \$1 200;
 #X obj 1474 698 max 0.1;
-#X msg 140 807 \; load_f_min 100 \; load_f_max 4000 \; load_e_min -1
-\; load_e_max 10 \; load_harm_spread 1000 \; load_harm_val 1.5 \;;
+#X obj 1466 483 max 0.15;
+#X obj 1466 442 expr $f1/10000 * ($f2 + 1) - 1;
+#X floatatom 1268 367 5 0 0 1 glissando_time load_harm_time harm_time
+;
+#X msg 172 106 \$1 \$2;
+#X obj 172 85 pack;
+#X obj 193 64 r harm_time;
+#X msg 140 807 \; load_f_min 100 \; load_f_max 4000 \; load_e_min 0.15
+\; load_e_max 10 \; load_harm_spread 1000 \; load_harm_val 1.5 \; load_harm_time
+750 \;;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 2 0 13 0;
@@ -244,7 +249,7 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 54 0 55 0;
 #X connect 55 0 56 0;
 #X connect 56 0 57 0;
-#X connect 58 0 160 0;
+#X connect 58 0 163 0;
 #X connect 59 0 60 0;
 #X connect 61 0 62 0;
 #X connect 62 0 63 0;
@@ -328,24 +333,26 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 133 0 142 1;
 #X connect 134 0 133 0;
 #X connect 135 0 136 0;
-#X connect 137 0 145 0;
-#X connect 140 0 145 1;
-#X connect 141 0 145 2;
+#X connect 137 0 160 0;
+#X connect 140 0 159 1;
+#X connect 141 0 160 1;
 #X connect 142 0 135 0;
-#X connect 143 0 144 0;
-#X connect 145 0 143 0;
-#X connect 146 0 148 0;
-#X connect 147 0 162 0;
-#X connect 147 1 125 0;
-#X connect 148 0 147 0;
-#X connect 149 0 151 0;
-#X connect 150 0 151 1;
-#X connect 151 0 155 0;
-#X connect 154 0 155 1;
-#X connect 154 0 156 1;
-#X connect 155 0 156 0;
+#X connect 144 0 146 0;
+#X connect 145 0 165 0;
+#X connect 145 1 125 0;
+#X connect 146 0 145 0;
+#X connect 147 0 149 0;
+#X connect 148 0 149 1;
+#X connect 149 0 153 0;
+#X connect 152 0 153 1;
+#X connect 152 0 154 1;
+#X connect 153 0 154 0;
+#X connect 154 0 156 0;
+#X connect 155 0 156 1;
 #X connect 156 0 158 0;
-#X connect 157 0 158 1;
-#X connect 158 0 161 0;
-#X connect 160 0 59 0;
-#X connect 161 0 159 0;
+#X connect 158 0 157 0;
+#X connect 159 0 143 0;
+#X connect 160 0 159 0;
+#X connect 162 0 59 0;
+#X connect 163 0 162 0;
+#X connect 164 0 163 1;
