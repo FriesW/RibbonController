@@ -44,7 +44,7 @@
 #X obj 553 98 metro 500;
 #X msg 606 360 \$1 500;
 #X obj 657 199 vsl 15 64 0 64 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2855 1;
+-1 -1 3052 1;
 #X obj 619 630 *~;
 #X obj 603 653 +~;
 #X obj 602 703 lop~ 1600;
@@ -59,15 +59,15 @@
 #X obj 688 600 r~ \$0depth;
 #X floatatom 102 86 5 0 0 0 - loadFund -;
 #X msg 102 106 \$1 5;
-#X obj 102 127 line~;
-#X obj 102 148 s~ \$0fund;
-#X floatatom 172 45 7 0 0 0 - loadHarm -;
-#X obj 172 127 line~;
-#X obj 172 148 s~ \$0harm;
-#X floatatom 242 86 5 0 0 0 - loadDepth -;
-#X msg 242 106 \$1 5;
-#X obj 242 127 line~;
-#X obj 242 148 s~ \$0depth;
+#X obj 102 147 line~;
+#X obj 102 168 s~ \$0fund;
+#X floatatom 202 45 7 0 0 0 - loadHarm -;
+#X obj 202 147 line~;
+#X obj 202 168 s~ \$0harm;
+#X floatatom 302 86 5 0 0 0 - loadDepth -;
+#X msg 302 106 \$1 5;
+#X obj 302 147 line~;
+#X obj 302 168 s~ \$0depth;
 #X obj 606 409 s~ \$0walkL;
 #X obj 606 336 expr $f1 * ($f3 - $f2) / 64 + $f2;
 #X obj 856 181 f;
@@ -82,7 +82,7 @@
 #X obj 856 388 line~;
 #X msg 856 360 \$1 500;
 #X obj 907 199 vsl 15 64 0 64 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 3052 1;
+-1 -1 3642 1;
 #X floatatom 953 299 7 0 0 0 - loadWalkLow -;
 #X floatatom 1051 299 7 0 0 0 - loadWalkHigh -;
 #X obj 856 336 expr $f1 * ($f3 - $f2) / 64 + $f2;
@@ -135,8 +135,8 @@
 #X obj 547 661 / 2;
 #X obj 547 684 max 0;
 #X obj 547 704 min 1;
-#X floatatom 1268 247 5 10 20000 1 freq_max load_f_max f_max;
-#X floatatom 1268 227 5 10 20000 1 freq_min load_f_min f_min;
+#X floatatom 1145 271 5 10 20000 1 freq_max load_f_max f_max;
+#X floatatom 1145 251 5 10 20000 1 freq_min load_f_min f_min;
 #X obj 1490 145 CC 16;
 #X obj 1595 146 CC 17;
 #X obj 1490 168 expr ($f1 + $f2)/2;
@@ -147,8 +147,8 @@
 #X obj 1461 319 mtof;
 #X obj 1461 340 s loadFund;
 #X obj 1466 421 CC 11;
-#X floatatom 1268 297 5 0 50 1 expr_max load_e_max e_max;
-#X floatatom 1268 277 5 0 50 1 expr_min load_e_min e_min;
+#X floatatom 1145 321 5 0 50 1 expr_max load_e_max e_max;
+#X floatatom 1145 301 5 0 50 1 expr_min load_e_min e_min;
 #X obj 1511 463 r e_min;
 #X obj 1603 418 r e_max;
 #X obj 1461 297 expr $f1/10000 * ($f3 - $f2) + $f2;
@@ -160,8 +160,8 @@
 #X obj 1474 571 CC 16;
 #X obj 1558 571 CC 17;
 #X obj 1474 594 expr abs($f1 - $f2);
-#X floatatom 1268 347 5 0 20 1 max_value load_harm_val harm_val;
-#X floatatom 1268 327 5 0 50000 1 max_spread load_harm_spread harm_spread
+#X floatatom 1145 371 5 0 20 1 max_value load_harm_val harm_val;
+#X floatatom 1145 351 5 0 50000 1 max_spread load_harm_spread harm_spread
 ;
 #X obj 1489 614 r harm_spread;
 #X obj 1474 635 min;
@@ -172,11 +172,11 @@
 #X obj 1474 698 max 0.1;
 #X obj 1466 483 max 0.15;
 #X obj 1466 442 expr $f1/10000 * ($f2 + 1) - 1;
-#X floatatom 1268 367 5 0 60000 1 glissando_time load_harm_time harm_time
+#X floatatom 1145 391 5 0 60000 1 glissando_time load_harm_time harm_time
 ;
-#X msg 172 106 \$1 \$2;
-#X obj 172 85 pack;
-#X obj 193 64 r harm_time;
+#X msg 202 106 \$1 \$2;
+#X obj 202 85 pack;
+#X obj 223 64 r harm_time;
 #X obj 852 803 ctlin 7;
 #X obj 852 824 != 0;
 #N canvas 686 263 450 300 adsr 0;
@@ -214,18 +214,27 @@
 #X obj 1470 216 == 0;
 #X obj 1520 216 == 1;
 #X obj 1470 193 r avg_sel;
-#X obj 1268 207 tgl 15 0 avg_sel empty average_freq 17 7 0 10 -262144
+#X obj 1145 231 tgl 15 0 avg_sel empty average_freq 17 7 0 10 -262144
 -1 -1 0 1;
 #X floatatom 1440 257 5 0 0 0 - - -;
 #X floatatom 1490 257 5 0 0 0 - - -;
 #X msg 304 778 \; loadFund 220 \; loadHarm 1.5 \; loadDepth 0.4 \;
 loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 0.99 \; loadWalkHigh 1.01 \; loadSpread 1.6 \;;
-#X floatatom 1268 397 5 0 100 1 volume load_vol vol;
+#X floatatom 1145 421 5 0 100 1 volume load_vol vol;
 #X msg 140 807 \; load_f_min 100 \; load_f_max 4000 \; load_e_min 0.15
 \; load_e_max 10 \; load_harm_spread 1000 \; load_harm_val 1.5 \; load_harm_time
 750 \; load_vol 5 \;;
 #X obj 548 824 / 100;
+#X obj 142 127 line;
+#X obj 142 148 s o_fund;
+#X obj 242 148 s o_harm;
+#X obj 242 127 line;
+#X obj 342 127 line;
+#X obj 342 148 s o_depth;
+#X floatatom 1295 231 5 0 0 1 fundamental o_fund _;
+#X floatatom 1295 251 5 0 0 1 harmonics o_harm _;
+#X floatatom 1295 271 5 0 0 1 depth o_depth _;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 2 0 13 0;
@@ -291,11 +300,13 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 53 0 52 1;
 #X connect 54 0 55 0;
 #X connect 55 0 56 0;
+#X connect 55 0 183 0;
 #X connect 56 0 57 0;
 #X connect 58 0 162 0;
 #X connect 59 0 60 0;
 #X connect 61 0 62 0;
 #X connect 62 0 63 0;
+#X connect 62 0 187 0;
 #X connect 63 0 64 0;
 #X connect 66 0 40 0;
 #X connect 67 0 68 1;
@@ -397,6 +408,7 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 158 0 142 0;
 #X connect 159 0 158 0;
 #X connect 161 0 59 0;
+#X connect 161 0 186 0;
 #X connect 162 0 161 0;
 #X connect 163 0 162 1;
 #X connect 164 0 165 0;
@@ -417,3 +429,6 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 177 0 141 0;
 #X connect 178 0 141 0;
 #X connect 182 0 117 0;
+#X connect 183 0 184 0;
+#X connect 186 0 185 0;
+#X connect 187 0 188 0;
