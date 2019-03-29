@@ -44,7 +44,7 @@
 #X obj 553 98 metro 500;
 #X msg 606 360 \$1 500;
 #X obj 657 199 vsl 15 64 0 64 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 3347 1;
+-1 -1 3150 1;
 #X obj 619 630 *~;
 #X obj 603 653 +~;
 #X obj 602 703 lop~ 1600;
@@ -82,7 +82,7 @@
 #X obj 856 388 line~;
 #X msg 856 360 \$1 500;
 #X obj 907 199 vsl 15 64 0 64 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2756 1;
+-1 -1 2953 1;
 #X floatatom 953 299 7 0 0 0 - loadWalkLow -;
 #X floatatom 1051 299 7 0 0 0 - loadWalkHigh -;
 #X obj 856 336 expr $f1 * ($f3 - $f2) / 64 + $f2;
@@ -140,9 +140,9 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 0.99 \; loadWalkHigh 1.01 \; loadSpread 1.6 \; loadVol 0.05 \;;
 #X floatatom 1268 247 5 10 20000 1 freq_max load_f_max f_max;
 #X floatatom 1268 227 5 10 20000 1 freq_min load_f_min f_min;
-#X obj 1461 251 CC 16;
-#X obj 1566 252 CC 17;
-#X obj 1461 274 expr ($f1 + $f2)/2;
+#X obj 1490 145 CC 16;
+#X obj 1595 146 CC 17;
+#X obj 1490 168 expr ($f1 + $f2)/2;
 #X obj 1662 252 r f_max;
 #X obj 1662 273 ftom;
 #X obj 1612 273 ftom;
@@ -214,6 +214,16 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X obj 852 845 route 1 0;
 #X obj 628 911 *~;
 #X obj 668 911 *~;
+#X obj 1440 171 CC 16;
+#X obj 1440 236 spigot;
+#X obj 1490 236 spigot;
+#X obj 1470 216 == 0;
+#X obj 1520 216 == 1;
+#X obj 1470 193 r avg_sel;
+#X obj 1268 207 tgl 15 0 avg_sel empty average_freq 17 7 0 10 -262144
+-1 -1 0 1;
+#X floatatom 1440 257 5 0 0 0 - - -;
+#X floatatom 1490 257 5 0 0 0 - - -;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 2 0 13 0;
@@ -358,7 +368,7 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 124 0 120 0;
 #X connect 128 0 130 0;
 #X connect 129 0 130 1;
-#X connect 130 0 142 0;
+#X connect 130 0 174 0;
 #X connect 131 0 132 0;
 #X connect 132 0 142 2;
 #X connect 133 0 142 1;
@@ -395,3 +405,12 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 169 1 168 1;
 #X connect 170 0 0 0;
 #X connect 171 0 0 1;
+#X connect 172 0 173 0;
+#X connect 173 0 179 0;
+#X connect 174 0 180 0;
+#X connect 175 0 173 1;
+#X connect 176 0 174 1;
+#X connect 177 0 175 0;
+#X connect 177 0 176 0;
+#X connect 179 0 142 0;
+#X connect 180 0 142 0;
