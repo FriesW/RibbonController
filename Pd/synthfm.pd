@@ -1,5 +1,5 @@
 #N canvas -8 -8 1920 997 10;
-#X obj 628 914 dac~;
+#X obj 628 944 dac~;
 #X obj 64 262 until;
 #X obj 64 292 f;
 #X obj 91 292 + 1;
@@ -44,7 +44,7 @@
 #X obj 553 98 metro 500;
 #X msg 606 360 \$1 500;
 #X obj 657 199 vsl 15 64 0 64 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 3248 1;
+-1 -1 3347 1;
 #X obj 619 630 *~;
 #X obj 603 653 +~;
 #X obj 602 703 lop~ 1600;
@@ -82,7 +82,7 @@
 #X obj 856 388 line~;
 #X msg 856 360 \$1 500;
 #X obj 907 199 vsl 15 64 0 64 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 3445 1;
+-1 -1 2756 1;
 #X floatatom 953 299 7 0 0 0 - loadWalkLow -;
 #X floatatom 1051 299 7 0 0 0 - loadWalkHigh -;
 #X obj 856 336 expr $f1 * ($f3 - $f2) / 64 + $f2;
@@ -138,8 +138,8 @@
 #X msg 304 778 \; loadFund 220 \; loadHarm 1.5 \; loadDepth 0.4 \;
 loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 0.99 \; loadWalkHigh 1.01 \; loadSpread 1.6 \; loadVol 0.05 \;;
-#X floatatom 1268 247 5 0 0 1 freq_max load_f_max f_max;
-#X floatatom 1268 227 5 0 0 1 freq_min load_f_min f_min;
+#X floatatom 1268 247 5 10 20000 1 freq_max load_f_max f_max;
+#X floatatom 1268 227 5 10 20000 1 freq_min load_f_min f_min;
 #X obj 1461 251 CC 16;
 #X obj 1566 252 CC 17;
 #X obj 1461 274 expr ($f1 + $f2)/2;
@@ -150,8 +150,8 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X obj 1461 319 mtof;
 #X obj 1461 340 s loadFund;
 #X obj 1466 421 CC 11;
-#X floatatom 1268 297 5 0 0 1 expr_max load_e_max e_max;
-#X floatatom 1268 277 5 0 0 1 expr_min load_e_min e_min;
+#X floatatom 1268 297 5 0 50 1 expr_max load_e_max e_max;
+#X floatatom 1268 277 5 0 50 1 expr_min load_e_min e_min;
 #X obj 1511 463 r e_min;
 #X obj 1603 418 r e_max;
 #X obj 1461 297 expr $f1/10000 * ($f3 - $f2) + $f2;
@@ -163,8 +163,8 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X obj 1474 571 CC 16;
 #X obj 1558 571 CC 17;
 #X obj 1474 594 expr abs($f1 - $f2);
-#X floatatom 1268 347 5 0 0 1 max_value load_harm_val harm_val;
-#X floatatom 1268 327 5 0 0 1 max_spread load_harm_spread harm_spread
+#X floatatom 1268 347 5 0 20 1 max_value load_harm_val harm_val;
+#X floatatom 1268 327 5 0 50000 1 max_spread load_harm_spread harm_spread
 ;
 #X obj 1489 614 r harm_spread;
 #X obj 1474 635 min;
@@ -175,7 +175,7 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X obj 1474 698 max 0.1;
 #X obj 1466 483 max 0.15;
 #X obj 1466 442 expr $f1/10000 * ($f2 + 1) - 1;
-#X floatatom 1268 367 5 0 0 1 glissando_time load_harm_time harm_time
+#X floatatom 1268 367 5 0 60000 1 glissando_time load_harm_time harm_time
 ;
 #X msg 172 106 \$1 \$2;
 #X obj 172 85 pack;
@@ -183,6 +183,37 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X msg 140 807 \; load_f_min 100 \; load_f_max 4000 \; load_e_min 0.15
 \; load_e_max 10 \; load_harm_spread 1000 \; load_harm_val 1.5 \; load_harm_time
 750 \;;
+#X obj 852 803 ctlin 7;
+#X obj 852 824 != 0;
+#N canvas 686 263 450 300 adsr 0;
+#X obj 85 19 inlet;
+#X obj 173 5 inlet;
+#X obj 134 206 outlet~;
+#X obj 133 178 line~;
+#X obj 125 95 del 200;
+#X msg 125 116 1 2500;
+#X msg 135 74 stop;
+#X obj 173 26 bang;
+#X obj 85 40 bang;
+#X obj 173 47 t b b;
+#X msg 39 117 1 50;
+#X msg 221 121 0 2000;
+#X connect 0 0 8 0;
+#X connect 1 0 7 0;
+#X connect 3 0 2 0;
+#X connect 4 0 5 0;
+#X connect 6 0 4 0;
+#X connect 7 0 9 0;
+#X connect 8 0 10 0;
+#X connect 8 0 4 0;
+#X connect 9 0 11 0;
+#X connect 9 1 6 0;
+#X connect 10 0 3 0;
+#X connect 11 0 3 0;
+#X restore 851 869 pd adsr;
+#X obj 852 845 route 1 0;
+#X obj 628 911 *~;
+#X obj 668 911 *~;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 2 0 13 0;
@@ -311,8 +342,8 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 111 0 112 1;
 #X connect 112 0 114 0;
 #X connect 113 0 115 0;
-#X connect 114 0 0 0;
-#X connect 115 0 0 1;
+#X connect 114 0 170 0;
+#X connect 115 0 171 0;
 #X connect 116 0 117 0;
 #X connect 117 0 118 0;
 #X connect 118 0 114 1;
@@ -356,3 +387,11 @@ loadModCalc bang \; loadCarCalc bang \; loadWalkOn 1 \; loadWalkLow
 #X connect 162 0 59 0;
 #X connect 163 0 162 0;
 #X connect 164 0 163 1;
+#X connect 166 0 167 0;
+#X connect 167 0 169 0;
+#X connect 168 0 171 1;
+#X connect 168 0 170 1;
+#X connect 169 0 168 0;
+#X connect 169 1 168 1;
+#X connect 170 0 0 0;
+#X connect 171 0 0 1;
